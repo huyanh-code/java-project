@@ -1,0 +1,25 @@
+{
+  "bookstoreApp": {
+    "otherEntity": {
+      "home": {
+        "title": "Other Entities",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Other Entity",
+        "createOrEditLabel": "Create or edit a Other Entity",
+        "notFound": "No Other Entities found"
+      },
+      "created": "A new Other Entity is created with identifier { param }",
+      "updated": "A Other Entity is updated with identifier { param }",
+      "deleted": "A Other Entity is deleted with identifier { param }",
+      "delete": {
+        "question": "Are you sure you want to delete Other Entity { id }?"
+      },
+      "detail": {
+        "title": "Other Entity"
+      },
+      "id": "ID",
+      "name": "Name",
+      "birthDate": "Birth Date"
+    }
+  }
+}
