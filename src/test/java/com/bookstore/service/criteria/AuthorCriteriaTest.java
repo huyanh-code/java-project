@@ -77,6 +77,7 @@ class AuthorCriteriaTest {
         authorCriteria.id();
         authorCriteria.name();
         authorCriteria.birthDate();
+        authorCriteria.bookId();
         authorCriteria.distinct();
     }
 
@@ -86,6 +87,7 @@ class AuthorCriteriaTest {
                 condition.apply(criteria.getId()) &&
                 condition.apply(criteria.getName()) &&
                 condition.apply(criteria.getBirthDate()) &&
+                condition.apply(criteria.getBookId()) &&
                 condition.apply(criteria.getDistinct()),
             "every filter matches"
         );
@@ -97,6 +99,7 @@ class AuthorCriteriaTest {
                 condition.apply(criteria.getId(), copy.getId()) &&
                 condition.apply(criteria.getName(), copy.getName()) &&
                 condition.apply(criteria.getBirthDate(), copy.getBirthDate()) &&
+                condition.apply(criteria.getBookId(), copy.getBookId()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"
         );

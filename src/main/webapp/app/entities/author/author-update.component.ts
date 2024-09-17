@@ -38,17 +38,16 @@ export default defineComponent({
       retrieveAuthor(route.params.authorId);
     }
 
+    const initRelationships = () => {};
+
+    initRelationships();
+
     const { t: t$ } = useI18n();
     const validations = useValidation();
     const validationRules = {
-      name: {
-        required: validations.required(t$('entity.validation.required').toString()),
-        minLength: validations.minLength(t$('entity.validation.minlength', { min: 5 }).toString(), 5),
-        maxLength: validations.maxLength(t$('entity.validation.maxlength', { max: 100 }).toString(), 100),
-      },
-      birthDate: {
-        required: validations.required(t$('entity.validation.required').toString()),
-      },
+      name: {},
+      birthDate: {},
+      books: {},
     };
     const v$ = useVuelidate(validationRules, author as any);
     v$.value.$validate();

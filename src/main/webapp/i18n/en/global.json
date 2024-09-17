@@ -10,7 +10,8 @@
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)",
         "author": "Author",
         "someEntity": "Some Entity",
-        "otherEntity": "Other Entity"
+        "otherEntity": "Other Entity",
+        "book": "Book"
       },
       "account": {
         "main": "Account",

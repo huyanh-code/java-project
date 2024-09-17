@@ -19,7 +19,8 @@
       },
       "id": "ID",
       "name": "Name",
-      "birthDate": "Birth Date"
+      "birthDate": "Birth Date",
+      "book": "Book"
     }
   }
 }

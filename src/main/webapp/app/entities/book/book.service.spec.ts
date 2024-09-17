@@ -3,9 +3,9 @@ import axios from 'axios';
 import sinon from 'sinon';
 import dayjs from 'dayjs';
 
-import AuthorService from './author.service';
+import BookService from './book.service';
 import { DATE_FORMAT } from '@/shared/composables/date-format';
-import { Author } from '@/shared/model/author.model';
+import { Book } from '@/shared/model/book.model';
 
 const error = {
   response: {
@@ -25,20 +25,20 @@ const axiosStub = {
 };
 
 describe('Service Tests', () => {
-  describe('Author Service', () => {
-    let service: AuthorService;
+  describe('Book Service', () => {
+    let service: BookService;
     let elemDefault;
     let currentDate: Date;
 
     beforeEach(() => {
-      service = new AuthorService();
+      service = new BookService();
       currentDate = new Date();
-      elemDefault = new Author(123, 'AAAAAAA', currentDate);
+      elemDefault = new Book(123, 'AAAAAAA', 'AAAAAAA', currentDate, 0);
     });
 
     describe('Service methods', () => {
       it('should find an element', async () => {
-        const returnedFromService = { birthDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
+        const returnedFromService = { publicationDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
         axiosStub.get.resolves({ data: returnedFromService });
 
         return service.find(123).then(res => {
@@ -56,9 +56,9 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should create a Author', async () => {
-        const returnedFromService = { id: 123, birthDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
-        const expected = { birthDate: currentDate, ...returnedFromService };
+      it('should create a Book', async () => {
+        const returnedFromService = { id: 123, publicationDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
+        const expected = { publicationDate: currentDate, ...returnedFromService };
 
         axiosStub.post.resolves({ data: returnedFromService });
         return service.create({}).then(res => {
@@ -66,7 +66,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not create a Author', async () => {
+      it('should not create a Book', async () => {
         axiosStub.post.rejects(error);
 
         return service
@@ -77,10 +77,16 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should update a Author', async () => {
-        const returnedFromService = { name: 'BBBBBB', birthDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
+      it('should update a Book', async () => {
+        const returnedFromService = {
+          title: 'BBBBBB',
+          description: 'BBBBBB',
+          publicationDate: dayjs(currentDate).format(DATE_FORMAT),
+          price: 1,
+          ...elemDefault,
+        };
 
-        const expected = { birthDate: currentDate, ...returnedFromService };
+        const expected = { publicationDate: currentDate, ...returnedFromService };
         axiosStub.put.resolves({ data: returnedFromService });
 
         return service.update(expected).then(res => {
@@ -88,7 +94,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not update a Author', async () => {
+      it('should not update a Book', async () => {
         axiosStub.put.rejects(error);
 
         return service
@@ -99,11 +105,11 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should partial update a Author', async () => {
-        const patchObject = { name: 'BBBBBB', birthDate: dayjs(currentDate).format(DATE_FORMAT), ...new Author() };
+      it('should partial update a Book', async () => {
+        const patchObject = { ...new Book() };
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
-        const expected = { birthDate: currentDate, ...returnedFromService };
+        const expected = { publicationDate: currentDate, ...returnedFromService };
         axiosStub.patch.resolves({ data: returnedFromService });
 
         return service.partialUpdate(patchObject).then(res => {
@@ -111,7 +117,7 @@ describe('Service Tests', () => {
         });
       });
 
-      it('should not partial update a Author', async () => {
+      it('should not partial update a Book', async () => {
         axiosStub.patch.rejects(error);
 
         return service
@@ -122,16 +128,22 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should return a list of Author', async () => {
-        const returnedFromService = { name: 'BBBBBB', birthDate: dayjs(currentDate).format(DATE_FORMAT), ...elemDefault };
-        const expected = { birthDate: currentDate, ...returnedFromService };
+      it('should return a list of Book', async () => {
+        const returnedFromService = {
+          title: 'BBBBBB',
+          description: 'BBBBBB',
+          publicationDate: dayjs(currentDate).format(DATE_FORMAT),
+          price: 1,
+          ...elemDefault,
+        };
+        const expected = { publicationDate: currentDate, ...returnedFromService };
         axiosStub.get.resolves([returnedFromService]);
         return service.retrieve({ sort: {}, page: 0, size: 10 }).then(res => {
           expect(res).toContainEqual(expected);
         });
       });
 
-      it('should not return a list of Author', async () => {
+      it('should not return a list of Book', async () => {
         axiosStub.get.rejects(error);
 
         return service
@@ -142,14 +154,14 @@ describe('Service Tests', () => {
           });
       });
 
-      it('should delete a Author', async () => {
+      it('should delete a Book', async () => {
         axiosStub.delete.resolves({ ok: true });
         return service.delete(123).then(res => {
           expect(res.ok).toBeTruthy();
         });
       });
 
-      it('should not delete a Author', async () => {
+      it('should not delete a Book', async () => {
         axiosStub.delete.rejects(error);
 
         return service

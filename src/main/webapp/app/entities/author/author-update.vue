@@ -23,8 +23,6 @@
               :class="{ valid: !v$.name.$invalid, invalid: v$.name.$invalid }"
               v-model="v$.name.$model"
             />
-            <!--            <span>{{ v$.name.$errors }}</span>-->
-            <span v-for="error in v$.name.$errors" class="text-danger font-italic smaller">{{ error.$message }}</span>
           </div>
           <div class="form-group">
             <label class="form-control-label" v-text="t$('bookstoreApp.author.birthDate')" for="author-birthDate"></label>

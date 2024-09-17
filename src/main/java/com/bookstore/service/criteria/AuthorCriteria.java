@@ -28,6 +28,8 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     private LocalDateFilter birthDate;
 
+    private LongFilter bookId;
+
     private Boolean distinct;
 
     public AuthorCriteria() {}
@@ -36,6 +38,7 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.birthDate = other.optionalBirthDate().map(LocalDateFilter::copy).orElse(null);
+        this.bookId = other.optionalBookId().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -101,6 +104,25 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.birthDate = birthDate;
     }
 
+    public LongFilter getBookId() {
+        return bookId;
+    }
+
+    public Optional<LongFilter> optionalBookId() {
+        return Optional.ofNullable(bookId);
+    }
+
+    public LongFilter bookId() {
+        if (bookId == null) {
+            setBookId(new LongFilter());
+        }
+        return bookId;
+    }
+
+    public void setBookId(LongFilter bookId) {
+        this.bookId = bookId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -133,13 +155,14 @@ public class AuthorCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(birthDate, that.birthDate) &&
+            Objects.equals(bookId, that.bookId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, birthDate, distinct);
+        return Objects.hash(id, name, birthDate, bookId, distinct);
     }
 
     // prettier-ignore
@@ -149,6 +172,7 @@ public class AuthorCriteria implements Serializable, Criteria {
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalName().map(f -> "name=" + f + ", ").orElse("") +
             optionalBirthDate().map(f -> "birthDate=" + f + ", ").orElse("") +
+            optionalBookId().map(f -> "bookId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

@@ -6,6 +6,7 @@ import com.bookstore.repository.AuthorRepository;
 import com.bookstore.service.criteria.AuthorCriteria;
 import com.bookstore.service.dto.AuthorDTO;
 import com.bookstore.service.mapper.AuthorMapper;
+import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -81,6 +82,11 @@ public class AuthorQueryService extends QueryService<Author> {
             }
             if (criteria.getBirthDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBirthDate(), Author_.birthDate));
+            }
+            if (criteria.getBookId() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getBookId(), root -> root.join(Author_.books, JoinType.LEFT).get(Book_.id))
+                );
             }
         }
         return specification;

@@ -500,8 +500,6 @@ class OtherEntityResourceIT {
         OtherEntity partialUpdatedOtherEntity = new OtherEntity();
         partialUpdatedOtherEntity.setId(otherEntity.getId());
 
-        partialUpdatedOtherEntity.name(UPDATED_NAME).birthDate(UPDATED_BIRTH_DATE);
-
         restOtherEntityMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedOtherEntity.getId())

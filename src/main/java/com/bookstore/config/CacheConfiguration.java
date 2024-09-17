@@ -53,6 +53,8 @@ public class CacheConfiguration {
             createCache(cm, com.bookstore.domain.Author.class.getName());
             //            createCache(cm, com.bookstore.domain.SomeEntity.class.getName());
             createCache(cm, com.bookstore.domain.OtherEntity.class.getName());
+            createCache(cm, com.bookstore.domain.Author.class.getName() + ".books");
+            createCache(cm, com.bookstore.domain.Book.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
