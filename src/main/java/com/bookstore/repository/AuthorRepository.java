@@ -1,6 +1,7 @@
 package com.bookstore.repository;
 
 import com.bookstore.domain.Author;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

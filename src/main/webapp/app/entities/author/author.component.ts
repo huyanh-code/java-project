@@ -21,11 +21,12 @@ export default defineComponent({
     const totalItems = ref(0);
 
     const authors: Ref<IAuthor[]> = ref([]);
-
+    const searchQuery = ref('');
     const isFetching = ref(false);
 
     const clear = () => {
       page.value = 1;
+      searchQuery.value = '';
     };
 
     const sort = (): Array<any> => {
@@ -34,6 +35,27 @@ export default defineComponent({
         result.push('id');
       }
       return result;
+    };
+
+    const search = async () => {
+      if (authorService && searchQuery.value) {
+        authors.value = await authorService.search(searchQuery.value);
+      }
+    };
+
+    const handleSearch = async () => {
+      if (search.value.trim()) {
+        isFetching.value = true;
+        try {
+          // Implement search functionality
+          authors.value = await authorService.search(search.value, page.value, itemsPerPage.value);
+          // Handle additional logic, like updating totalItems or queryCount if needed
+        } catch (error) {
+          alertService.showError(t$('error.searchFailed')); // Use alert service to show errors
+        } finally {
+          isFetching.value = false;
+        }
+      }
     };
 
     const retrieveAuthors = async () => {
@@ -112,7 +134,9 @@ export default defineComponent({
 
     return {
       authors,
+      searchQuery,
       handleSyncList,
+      handleSearch,
       isFetching,
       retrieveAuthors,
       clear,

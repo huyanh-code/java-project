@@ -3,6 +3,7 @@
     "author": {
       "home": {
         "title": "Authors",
+        "search": "Search author",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Author",
         "createOrEditLabel": "Create or edit a Author",

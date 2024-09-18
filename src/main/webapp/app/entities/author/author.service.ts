@@ -20,6 +20,19 @@ export default class AuthorService {
     });
   }
 
+  public searchQuery(name: string): Promise<IAuthor[]> {
+    return new Promise<IAuthor[]>((resolve, reject) => {
+      axios
+        .get(`${baseApiUrl}/${name}`)
+        .then(res => {
+          resolve(res.data); // Trả về danh sách các tác giả
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   public retrieve(paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       axios

@@ -32,6 +32,8 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     private Boolean distinct;
 
+    private String searchQuery;
+
     public AuthorCriteria() {}
 
     public AuthorCriteria(AuthorCriteria other) {
@@ -140,6 +142,14 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     public void setDistinct(Boolean distinct) {
         this.distinct = distinct;
+    }
+
+    public String getSearchQuery() {
+        return searchQuery;
+    }
+
+    public void setSearchQuery(String searchQuery) {
+        this.searchQuery = searchQuery;
     }
 
     @Override

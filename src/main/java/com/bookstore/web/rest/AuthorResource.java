@@ -147,12 +147,12 @@ public class AuthorResource {
      */
     @GetMapping("")
     public ResponseEntity<List<AuthorDTO>> getAllAuthors(
+        @RequestParam(value = "name", required = false) String name,
         AuthorCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
-        LOG.debug("REST request to get Authors by criteria: {}", criteria);
-
-        Page<AuthorDTO> page = authorQueryService.findByCriteria(criteria, pageable);
+        LOG.debug("REST request to get Authors by criteria, name: {}, {}", criteria, name);
+        Page<AuthorDTO> page = authorQueryService.findByCriteria(name, criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

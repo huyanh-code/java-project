@@ -44,8 +44,8 @@ public class AuthorQueryService extends QueryService<Author> {
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
-    public Page<AuthorDTO> findByCriteria(AuthorCriteria criteria, Pageable page) {
-        LOG.debug("find by criteria : {}, page: {}", criteria, page);
+    public Page<AuthorDTO> findByCriteria(String name, AuthorCriteria criteria, Pageable page) {
+        LOG.debug("find by name: {}, criteria : {}, page: {}", name, criteria, page);
         final Specification<Author> specification = createSpecification(criteria);
         return authorRepository.findAll(specification, page).map(authorMapper::toDto);
     }
@@ -88,6 +88,12 @@ public class AuthorQueryService extends QueryService<Author> {
                     buildSpecification(criteria.getBookId(), root -> root.join(Author_.books, JoinType.LEFT).get(Book_.id))
                 );
             }
+        }
+
+        if (criteria.getSearchQuery() != null && !criteria.getSearchQuery().trim().isEmpty()) {
+            specification = specification.and((root, query, builder) ->
+                builder.like(builder.lower(root.get("name")), "%" + criteria.getSearchQuery().toLowerCase() + "%")
+            );
         }
         return specification;
     }
