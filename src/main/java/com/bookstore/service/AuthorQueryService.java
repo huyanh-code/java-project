@@ -15,6 +15,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
+import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link Author} entities in the database.
@@ -44,7 +45,7 @@ public class AuthorQueryService extends QueryService<Author> {
      * @return the matching entities.
      */
     @Transactional(readOnly = true)
-    public Page<AuthorDTO> findByCriteria(String name, AuthorCriteria criteria, Pageable page) {
+    public Page<AuthorDTO> findByCriteria(StringFilter name, AuthorCriteria criteria, Pageable page) {
         LOG.debug("find by name: {}, criteria : {}, page: {}", name, criteria, page);
         final Specification<Author> specification = createSpecification(criteria);
         return authorRepository.findAll(specification, page).map(authorMapper::toDto);

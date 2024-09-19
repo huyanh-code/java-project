@@ -3,17 +3,19 @@
     <h2 id="page-heading" data-cy="AuthorHeading">
       <span v-text="t$('bookstoreApp.author.home.title')" id="author-heading"></span>
       <div class="search-container">
-        <input v-model="searchQuery" @input="handleSearch" type="text" class="form-control mr-2" placeholder="Search authors..." />
-        <button @click="handleSearch" class="btn btn-primary" :disabled="isFetching">
+        <input
+          v-model="searchConditions.authorName"
+          @input="retrieveAuthors"
+          type="text"
+          class="form-control mr-2"
+          placeholder="Search authors..."
+        />
+        <button @click="retrieveAuthors" class="btn btn-primary" :disabled="isFetching">
           <font-awesome-icon icon="search"></font-awesome-icon>
           <span v-text="t$('bookstoreApp.author.home.search')"></span>
         </button>
-        <div v-if="author">
-          <p>Id: {{ author.id }}</p>
-          <p>Name: {{ author.name }}</p>
-          <p>birthDate: {{ author.date }}</p>
-        </div>
       </div>
+
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" @click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>

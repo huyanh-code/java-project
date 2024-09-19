@@ -1,7 +1,7 @@
 import { type Ref, defineComponent, inject, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import AuthorService from './author.service';
+import AuthorService, { AuthorSearchCondition } from './author.service';
 import { type IAuthor } from '@/shared/model/author.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -22,6 +22,10 @@ export default defineComponent({
 
     const authors: Ref<IAuthor[]> = ref([]);
     const searchQuery = ref('');
+    const searchConditions = ref<AuthorSearchCondition>({
+      // bookName: undefined,
+      authorName: undefined,
+    });
     const isFetching = ref(false);
 
     const clear = () => {
@@ -39,16 +43,16 @@ export default defineComponent({
 
     const search = async () => {
       if (authorService && searchQuery.value) {
-        authors.value = await authorService.search(searchQuery.value);
+        authors.value = await authorService().search(searchQuery.value);
       }
     };
 
     const handleSearch = async () => {
-      if (search.value.trim()) {
+      if (searchQuery.value.trim()) {
         isFetching.value = true;
         try {
           // Implement search functionality
-          authors.value = await authorService.search(search.value, page.value, itemsPerPage.value);
+          authors.value = await authorService().search(searchQuery.value, page.value, itemsPerPage.value);
           // Handle additional logic, like updating totalItems or queryCount if needed
         } catch (error) {
           alertService.showError(t$('error.searchFailed')); // Use alert service to show errors
@@ -66,7 +70,7 @@ export default defineComponent({
           size: itemsPerPage.value,
           sort: sort(),
         };
-        const res = await authorService().retrieve(paginationQuery);
+        const res = await authorService().retrieve(searchConditions.value, paginationQuery);
         totalItems.value = Number(res.headers['x-total-count']);
         queryCount.value = totalItems.value;
         authors.value = res.data;
@@ -135,6 +139,7 @@ export default defineComponent({
     return {
       authors,
       searchQuery,
+      searchConditions,
       handleSyncList,
       handleSearch,
       isFetching,
