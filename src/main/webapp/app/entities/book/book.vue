@@ -2,6 +2,26 @@
   <div>
     <h2 id="page-heading" data-cy="BookHeading">
       <span v-text="t$('bookstoreApp.book.home.title')" id="book-heading"></span>
+
+      <form>
+        <div class="form-inline">
+          <div class="search-container">
+            <input v-model="searchCondition.title" type="text" class="form-control mb-2 mr-sm-2" placeholder="Search title..." />
+          </div>
+          <div class="search-container">
+            <input v-model="searchCondition.authorName" type="text" class="form-control mb-2 mr-sm-2" placeholder="Search authors..." />
+            <button type="button" @click="retrieveBooks" class="btn btn-primary mb-2" :disabled="isFetching">
+              <font-awesome-icon icon="search"></font-awesome-icon>
+              <span v-text="t$('bookstoreApp.book.home.search')"></span>
+            </button>
+            <button @click="hanldeCharater" class="btn btn-primary mb-2" :disabled="isFetching">
+              <font-awesome-icon icon="remove"></font-awesome-icon>
+              <span v-text="t$('bookstoreApp.book.home.remove')"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" @click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>

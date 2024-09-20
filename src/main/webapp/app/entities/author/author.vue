@@ -3,13 +3,7 @@
     <h2 id="page-heading" data-cy="AuthorHeading">
       <span v-text="t$('bookstoreApp.author.home.title')" id="author-heading"></span>
       <div class="search-container">
-        <input
-          v-model="searchConditions.authorName"
-          @input="retrieveAuthors"
-          type="text"
-          class="form-control mr-2"
-          placeholder="Search authors..."
-        />
+        <input v-model="searchConditions.authorName" type="text" class="form-control mr-2" placeholder="Search authors..." />
         <button @click="retrieveAuthors" class="btn btn-primary" :disabled="isFetching">
           <font-awesome-icon icon="search"></font-awesome-icon>
           <span v-text="t$('bookstoreApp.author.home.search')"></span>

@@ -2,7 +2,7 @@ import { type Ref, defineComponent, inject, onMounted, ref, watch, watchEffect }
 import { useI18n } from 'vue-i18n';
 import { useIntersectionObserver } from '@vueuse/core';
 
-import BookService from './book.service';
+import BookService, { BookSearchCondition } from './book.service';
 import { type IBook } from '@/shared/model/book.model';
 import useDataUtils from '@/shared/data/data-utils.service';
 import { useAlertService } from '@/shared/alert/alert.service';
@@ -25,8 +25,13 @@ export default defineComponent({
     const links: Ref<any> = ref({});
 
     const books: Ref<IBook[]> = ref([]);
-
+    const searchCondition = ref<BookSearchCondition>({
+      title: undefined,
+      authorName: undefined,
+    });
     const isFetching = ref(false);
+    const titleInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho title
+    const authorNameInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho authorName
 
     const clear = () => {
       page.value = 1;
@@ -50,11 +55,13 @@ export default defineComponent({
           size: itemsPerPage.value,
           sort: sort(),
         };
-        const res = await bookService().retrieve(paginationQuery);
+        const res = await bookService().retrieve(searchCondition.value, paginationQuery);
+        console.log('got books', res);
         totalItems.value = Number(res.headers['x-total-count']);
         queryCount.value = totalItems.value;
         links.value = dataUtils.parseLinks(res.headers?.link);
-        books.value.push(...(res.data ?? []));
+        books.value = res.data ?? [];
+        // books.value.push(...(res.data ?? []));
       } catch (err) {
         alertService.showHttpError(err.response);
       } finally {
@@ -69,6 +76,21 @@ export default defineComponent({
     onMounted(async () => {
       await retrieveBooks();
     });
+
+    const handleCharater = () => {
+      // Xóa nội dung của các trường tìm kiếm
+      searchCondition.value.title = '';
+      searchCondition.value.authorName = '';
+
+      // Thêm class để xóa outline
+      if (titleInputRef.value) {
+        titleInputRef.value.classList.add('no-outline');
+      }
+
+      if (authorNameInputRef.value) {
+        authorNameInputRef.value.classList.add('no-outline');
+      }
+    };
 
     const removeId: Ref<number> = ref(null);
     const removeEntity = ref<any>(null);
@@ -106,12 +128,12 @@ export default defineComponent({
       clear();
     });
 
-    // Whenever the data resets or page changes, switch to the new page.
-    watch([books, page], async ([data, page], [_prevData, prevPage]) => {
-      if (data.length === 0 || page !== prevPage) {
-        await retrieveBooks();
-      }
-    });
+    // // Whenever the data resets or page changes, switch to the new page.
+    // watch([books, page], async ([data, page], [_prevData, prevPage]) => {
+    //   if (data.length === 0 || page !== prevPage) {
+    //     await retrieveBooks();
+    //   }
+    // });
 
     const infiniteScrollEl = ref<HTMLElement>(null);
     const intersectionObserver = useIntersectionObserver(
@@ -136,7 +158,11 @@ export default defineComponent({
 
     return {
       books,
+      searchCondition,
       handleSyncList,
+      handleCharater,
+      titleInputRef,
+      authorNameInputRef,
       isFetching,
       retrieveBooks,
       clear,

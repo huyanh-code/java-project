@@ -6,6 +6,11 @@ import { type IBook } from '@/shared/model/book.model';
 
 const baseApiUrl = 'api/books';
 
+export class BookSearchCondition {
+  title?: String;
+  authorName?: String;
+}
+
 export default class BookService {
   public find(id: number): Promise<IBook> {
     return new Promise<IBook>((resolve, reject) => {
@@ -20,10 +25,22 @@ export default class BookService {
     });
   }
 
-  public retrieve(paginationQuery?: any): Promise<any> {
+  public retrieve(searchConditions?: BookSearchCondition, paginationQuery?: any): Promise<any> {
     return new Promise<any>((resolve, reject) => {
+      const queryParameters: String[] = [];
+      if (searchConditions) {
+        if (searchConditions.title) {
+          queryParameters.push(`title.contains=${searchConditions.title}`);
+        }
+        if (searchConditions.authorName) {
+          queryParameters.push(`authorName.contains=${searchConditions.authorName}`);
+        }
+      }
+
+      const q = queryParameters.join('&');
+
       axios
-        .get(`${baseApiUrl}?${buildPaginationQueryOpts(paginationQuery)}`)
+        .get(`${baseApiUrl}?${q}&${buildPaginationQueryOpts(paginationQuery)}`)
         .then(res => {
           resolve(res);
         })
