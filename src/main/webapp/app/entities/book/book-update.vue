@@ -12,7 +12,7 @@
             <label for="id" v-text="t$('global.field.id')"></label>
             <input type="text" class="form-control" id="id" name="id" v-model="book.id" readonly />
           </div>
-          <div class="form-group">
+          <div class="form-group w-50 ml-0">
             <label class="form-control-label" v-text="t$('bookstoreApp.book.title')" for="book-title"></label>
             <input
               type="text"
@@ -28,23 +28,26 @@
               <small class="form-text text-danger" v-for="error of v$.title.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
-          <div class="form-group">
-            <label class="form-control-label" v-text="t$('bookstoreApp.book.description')" for="book-description"></label>
-            <input
-              type="text"
+
+          <div class="form-group w-50 ml-0">
+            <label v-text="t$('bookstoreApp.book.description')" for="book-description"></label>
+            <textarea
               class="form-control"
+              rows="5"
               name="description"
               id="book-description"
               data-cy="description"
               :class="{ valid: !v$.description.$invalid, invalid: v$.description.$invalid }"
               v-model="v$.description.$model"
               required
-            />
+            >
+            </textarea>
             <div v-if="v$.description.$anyDirty && v$.description.$invalid">
               <small class="form-text text-danger" v-for="error of v$.description.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
-          <div class="form-group">
+
+          <div class="form-group w-25 ml-0">
             <label class="form-control-label" v-text="t$('bookstoreApp.book.publicationDate')" for="book-publicationDate"></label>
             <b-input-group class="mb-3">
               <b-input-group-prepend>
@@ -78,7 +81,7 @@
               }}</small>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group w-25 ml-0">
             <label class="form-control-label" v-text="t$('bookstoreApp.book.price')" for="book-price"></label>
             <input
               type="number"
@@ -94,7 +97,7 @@
               <small class="form-text text-danger" v-for="error of v$.price.$errors" :key="error.$uid">{{ error.$message }}</small>
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group w-50 ml-0">
             <label class="form-control-label" v-text="t$('bookstoreApp.book.author')" for="book-author"></label>
             <select class="form-control" id="book-author" data-cy="author" name="author" v-model="book.author">
               <option :value="null"></option>

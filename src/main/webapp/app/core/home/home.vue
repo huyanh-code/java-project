@@ -1,7 +1,9 @@
 <template>
   <div class="home row">
     <div class="col-md-3">
-      <span class="hipster img-fluid rounded"></span>
+      <!-- <span class="hipster img-fluid rounded"></span> -->
+      <!-- <span class="hipster_book.png"></span> -->
+      <img src="/content/images/jhipster_book.png" alt="Description of the image" class="hipster img-fluid rounded" />
     </div>
     <div class="col-md-9">
       <h1 class="display-4" v-text="t$('home.title')"></h1>

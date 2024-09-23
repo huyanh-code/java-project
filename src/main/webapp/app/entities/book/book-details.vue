@@ -35,7 +35,7 @@
           </dt>
           <dd>
             <div v-if="book.author">
-              <router-link :to="{ name: 'AuthorView', params: { authorId: book.author.id } }">{{ book.author.id }}</router-link>
+              <router-link :to="{ name: 'AuthorView', params: { authorId: book.author.id } }">{{ book.author.name }}</router-link>
             </div>
           </dd>
         </dl>
