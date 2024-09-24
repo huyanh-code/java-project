@@ -3,11 +3,11 @@
     <div class="col-md-3">
       <!-- <span class="hipster img-fluid rounded"></span> -->
       <!-- <span class="hipster_book.png"></span> -->
-      <img src="/content/images/jhipster_book.png" alt="Description of the image" class="hipster img-fluid rounded" />
+      <!-- <img src="/content/images/jhipster_book.png" alt="Description of the image" class="hipster img-fluid rounded" /> -->
     </div>
     <div class="col-md-9">
-      <h1 class="display-4" v-text="t$('home.title')"></h1>
-      <p class="lead" v-text="t$('home.subtitle')"></p>
+      <!-- <h1 class="display-4" v-text="t$('home.title')"></h1>
+      <p class="lead" v-text="t$('home.subtitle')"></p> -->
 
       <div>
         <div class="alert alert-success" v-if="authenticated">
@@ -26,42 +26,6 @@
       </div>
 
       <p v-text="t$('home.question')"></p>
-
-      <ul>
-        <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer" v-text="t$('home.link.homepage')"></a></li>
-        <li>
-          <a
-            href="https://stackoverflow.com/tags/jhipster/info"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.stackoverflow')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/jhipster/generator-jhipster/issues?state=open"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.bugtracker')"
-          ></a>
-        </li>
-        <li>
-          <a
-            href="https://gitter.im/jhipster/generator-jhipster"
-            target="_blank"
-            rel="noopener noreferrer"
-            v-text="t$('home.link.chat')"
-          ></a>
-        </li>
-        <li>
-          <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer" v-text="t$('home.link.follow')"></a>
-        </li>
-      </ul>
-
-      <p>
-        <span v-text="t$('home.like')"></span>
-        <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer" v-text="t$('home.github')"></a>!
-      </p>
     </div>
   </div>
 </template>

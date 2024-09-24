@@ -5,6 +5,32 @@
 
       <form>
         <div class="form-inline">
+        <div class="input-group mb-2 mr-sm-2 search-container">
+        <input
+          v-model="searchCondition.title"
+          type="text"
+          class="form-control"
+          placeholder="Search title or authors..."
+        />
+        <div class="input-group-append">
+      
+      <span v-if="searchCondition.title || searchCondition.authorName" 
+            class="input-group-text" 
+            @click="clearSearch"
+            style="cursor: pointer;">
+        <font-awesome-icon icon="times" />
+      </span>
+      <!-- Search Icon: Always Visible -->
+      <span class="input-group-text" 
+            @click="retrieveBooks" 
+            style="cursor: pointer;">
+        <font-awesome-icon icon="search" />
+      </span>
+    </div>
+  </div>
+</div>
+
+        <!-- <div class="form-inline">
           <div class="search-container">
             <input v-model="searchCondition.title" type="text" class="form-control mb-2 mr-sm-2" placeholder="Search title..." />
           </div>
@@ -19,7 +45,7 @@
               <span v-text="t$('bookstoreApp.book.home.remove')"></span>
             </button>
           </div>
-        </div>
+        </div> -->
 
         <button class="btn btn-info mb-2 mr-2" @click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
@@ -140,6 +166,15 @@
       </template>
     </b-modal>
   </div>
+  <div v-show="books && books.length > 0">
+      <div class="row justify-content-center">
+        <jhi-item-count :page="page" :total="queryCount" :itemsPerPage="itemsPerPage"></jhi-item-count>
+      </div>
+      <div class="row justify-content-center">
+        <b-pagination size="md" :total-rows="totalItems" v-model="page" :per-page="itemsPerPage"></b-pagination>
+      </div>
+    </div>
+
 </template>
 
 <script lang="ts" src="./book.component.ts"></script>

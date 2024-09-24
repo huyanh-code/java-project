@@ -9,6 +9,7 @@ const baseApiUrl = 'api/books';
 export class BookSearchCondition {
   title?: String;
   authorName?: String;
+  combinedSearch?: String;
 }
 
 export default class BookService {

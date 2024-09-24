@@ -26,9 +26,11 @@ export default defineComponent({
 
     const books: Ref<IBook[]> = ref([]);
     const searchCondition = ref<BookSearchCondition>({
+      combinedSearch: undefined, 
       title: undefined,
       authorName: undefined,
     });
+    
     const isFetching = ref(false);
     const titleInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho title
     const authorNameInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho authorName
@@ -55,6 +57,14 @@ export default defineComponent({
           size: itemsPerPage.value,
           sort: sort(),
         };
+
+        const [title, authorName] = searchCondition.value.combinedSearch || ''
+        .split(':')
+        .map((part) => part.trim());
+
+    searchCondition.value.title = title || ''; 
+    searchCondition.value.authorName = authorName || ''; 
+        
         const res = await bookService().retrieve(searchCondition.value, paginationQuery);
         console.log('got books', res);
         totalItems.value = Number(res.headers['x-total-count']);
@@ -77,19 +87,10 @@ export default defineComponent({
       await retrieveBooks();
     });
 
-    const handleCharater = () => {
-      // Xóa nội dung của các trường tìm kiếm
+    const clearSearch = (): void => {
       searchCondition.value.title = '';
       searchCondition.value.authorName = '';
-
-      // Thêm class để xóa outline
-      if (titleInputRef.value) {
-        titleInputRef.value.classList.add('no-outline');
-      }
-
-      if (authorNameInputRef.value) {
-        authorNameInputRef.value.classList.add('no-outline');
-      }
+      retrieveBooks(); // Có thể thực hiện tìm kiếm lại với điều kiện trống
     };
 
     const removeId: Ref<number> = ref(null);
@@ -160,7 +161,7 @@ export default defineComponent({
       books,
       searchCondition,
       handleSyncList,
-      handleCharater,
+      clearSearch,
       titleInputRef,
       authorNameInputRef,
       isFetching,
