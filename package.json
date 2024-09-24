@@ -88,12 +88,15 @@
     "axios": "1.7.5",
     "bootstrap": "4.6.2",
     "bootstrap-vue": "2.23.1",
+    "chart.js": "^4.4.4",
     "dayjs": "1.11.13",
     "deepmerge": "4.3.1",
     "pinia": "2.2.2",
     "vue": "3.4.38",
+    "vue-chartjs": "^5.3.1",
     "vue-i18n": "9.14.0",
-    "vue-router": "4.4.3"
+    "vue-router": "4.4.3",
+    "vue2-transitions": "^0.3.0"
   },
   "devDependencies": {
     "@eslint/js": "9.9.1",

@@ -26,6 +26,16 @@
       </div>
 
       <p v-text="t$('home.question')"></p>
+
+      <div class="row">
+        <div class="col-8">
+          <bar-chart />
+        </div>
+
+        <div class="col-4">
+          <bar-chart />
+        </div>
+      </div>
     </div>
   </div>
 </template>
