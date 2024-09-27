@@ -106,7 +106,7 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Book', async () => {
-        const patchObject = { ...new Book() };
+        const patchObject = { publicationDate: dayjs(currentDate).format(DATE_FORMAT), price: 1, ...new Book() };
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
         const expected = { publicationDate: currentDate, ...returnedFromService };

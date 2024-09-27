@@ -47,9 +47,7 @@ public class BookQueryService extends QueryService<Book> {
     public Page<BookDTO> findByCriteria(BookCriteria criteria, Pageable page) {
         LOG.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Book> specification = createSpecification(criteria);
-        var pageData = bookRepository.findAll(specification, page);
-
-        return pageData.map(bookMapper::toDto);
+        return bookRepository.findAll(specification, page).map(bookMapper::toDto);
     }
 
     /**
@@ -94,11 +92,6 @@ public class BookQueryService extends QueryService<Book> {
             if (criteria.getAuthorId() != null) {
                 specification = specification.and(
                     buildSpecification(criteria.getAuthorId(), root -> root.join(Book_.author, JoinType.LEFT).get(Author_.id))
-                );
-            }
-            if (criteria.getAuthorName() != null) {
-                specification = specification.and(
-                    buildSpecification(criteria.getAuthorName(), root -> root.join(Book_.author, JoinType.LEFT).get(Author_.name))
                 );
             }
         }

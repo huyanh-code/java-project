@@ -28,11 +28,13 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     private LocalDateFilter birthDate;
 
+    private LongFilter authorId;
+
     private LongFilter bookId;
 
-    private Boolean distinct;
+    private StringFilter imageAuthor;
 
-    private String searchQuery;
+    private Boolean distinct;
 
     public AuthorCriteria() {}
 
@@ -40,7 +42,9 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
         this.name = other.optionalName().map(StringFilter::copy).orElse(null);
         this.birthDate = other.optionalBirthDate().map(LocalDateFilter::copy).orElse(null);
+        this.authorId = other.optionalAuthorId().map(LongFilter::copy).orElse(null);
         this.bookId = other.optionalBookId().map(LongFilter::copy).orElse(null);
+        this.imageAuthor = other.optionalImageAuthor().map(StringFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -106,6 +110,44 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.birthDate = birthDate;
     }
 
+    public LongFilter getAuthorId() {
+        return authorId;
+    }
+
+    public Optional<LongFilter> optionalAuthorId() {
+        return Optional.ofNullable(authorId);
+    }
+
+    public LongFilter authorId() {
+        if (authorId == null) {
+            setAuthorId(new LongFilter());
+        }
+        return authorId;
+    }
+
+    public void setAuthorId(LongFilter authorId) {
+        this.authorId = authorId;
+    }
+
+    public StringFilter getImageAuthor() {
+        return imageAuthor;
+    }
+
+    public Optional<StringFilter> optionalImageAuthor() {
+        return Optional.ofNullable(imageAuthor);
+    }
+
+    public StringFilter imageAuthor() {
+        if (imageAuthor == null) {
+            setImageAuthor((new StringFilter()));
+        }
+        return imageAuthor;
+    }
+
+    public void setImageAuthor(StringFilter imageAuthor) {
+        this.imageAuthor = imageAuthor;
+    }
+
     public LongFilter getBookId() {
         return bookId;
     }
@@ -144,14 +186,6 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
-    public String getSearchQuery() {
-        return searchQuery;
-    }
-
-    public void setSearchQuery(String searchQuery) {
-        this.searchQuery = searchQuery;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -165,6 +199,7 @@ public class AuthorCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(birthDate, that.birthDate) &&
+            Objects.equals(authorId, that.authorId) &&
             Objects.equals(bookId, that.bookId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -172,7 +207,7 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, birthDate, bookId, distinct);
+        return Objects.hash(id, name, birthDate, authorId, bookId, distinct);
     }
 
     // prettier-ignore
@@ -182,6 +217,7 @@ public class AuthorCriteria implements Serializable, Criteria {
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
             optionalName().map(f -> "name=" + f + ", ").orElse("") +
             optionalBirthDate().map(f -> "birthDate=" + f + ", ").orElse("") +
+            optionalAuthorId().map(f -> "authorId=" + f + ", ").orElse("") +
             optionalBookId().map(f -> "bookId=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";

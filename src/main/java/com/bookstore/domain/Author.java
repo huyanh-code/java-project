@@ -31,6 +31,11 @@ public class Author implements Serializable {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "author_id" }, allowSetters = true)
+    private Set<ImageAuthor> authors = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "author" }, allowSetters = true)
@@ -75,6 +80,37 @@ public class Author implements Serializable {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Set<ImageAuthor> getAuthors() {
+        return this.authors;
+    }
+
+    public void setAuthors(Set<ImageAuthor> imageAuthors) {
+        if (this.authors != null) {
+            this.authors.forEach(i -> i.setAuthor(null));
+        }
+        if (imageAuthors != null) {
+            imageAuthors.forEach(i -> i.setAuthor(this));
+        }
+        this.authors = imageAuthors;
+    }
+
+    public Author authors(Set<ImageAuthor> imageAuthors) {
+        this.setAuthors(imageAuthors);
+        return this;
+    }
+
+    public Author addAuthor(ImageAuthor imageAuthor) {
+        this.authors.add(imageAuthor);
+        imageAuthor.setAuthor(this);
+        return this;
+    }
+
+    public Author removeAuthor(ImageAuthor imageAuthor) {
+        this.authors.remove(imageAuthor);
+        imageAuthor.setAuthor(null);
+        return this;
     }
 
     public Set<Book> getBooks() {

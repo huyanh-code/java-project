@@ -2,7 +2,7 @@ import { type Ref, defineComponent, inject, onMounted, ref, watch, watchEffect }
 import { useI18n } from 'vue-i18n';
 import { useIntersectionObserver } from '@vueuse/core';
 
-import BookService, { BookSearchCondition } from './book.service';
+import BookService from './book.service';
 import { type IBook } from '@/shared/model/book.model';
 import useDataUtils from '@/shared/data/data-utils.service';
 import { useAlertService } from '@/shared/alert/alert.service';
@@ -25,15 +25,8 @@ export default defineComponent({
     const links: Ref<any> = ref({});
 
     const books: Ref<IBook[]> = ref([]);
-    const searchCondition = ref<BookSearchCondition>({
-      combinedSearch: undefined, 
-      title: undefined,
-      authorName: undefined,
-    });
-    
+
     const isFetching = ref(false);
-    const titleInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho title
-    const authorNameInputRef = ref<HTMLInputElement | null>(null); // Khai báo ref cho authorName
 
     const clear = () => {
       page.value = 1;
@@ -57,21 +50,11 @@ export default defineComponent({
           size: itemsPerPage.value,
           sort: sort(),
         };
-
-        const [title, authorName] = searchCondition.value.combinedSearch || ''
-        .split(':')
-        .map((part) => part.trim());
-
-    searchCondition.value.title = title || ''; 
-    searchCondition.value.authorName = authorName || ''; 
-        
-        const res = await bookService().retrieve(searchCondition.value, paginationQuery);
-        console.log('got books', res);
+        const res = await bookService().retrieve(paginationQuery);
         totalItems.value = Number(res.headers['x-total-count']);
         queryCount.value = totalItems.value;
         links.value = dataUtils.parseLinks(res.headers?.link);
-        books.value = res.data ?? [];
-        // books.value.push(...(res.data ?? []));
+        books.value.push(...(res.data ?? []));
       } catch (err) {
         alertService.showHttpError(err.response);
       } finally {
@@ -86,12 +69,6 @@ export default defineComponent({
     onMounted(async () => {
       await retrieveBooks();
     });
-
-    const clearSearch = (): void => {
-      searchCondition.value.title = '';
-      searchCondition.value.authorName = '';
-      retrieveBooks(); // Có thể thực hiện tìm kiếm lại với điều kiện trống
-    };
 
     const removeId: Ref<number> = ref(null);
     const removeEntity = ref<any>(null);
@@ -129,12 +106,12 @@ export default defineComponent({
       clear();
     });
 
-    // // Whenever the data resets or page changes, switch to the new page.
-    // watch([books, page], async ([data, page], [_prevData, prevPage]) => {
-    //   if (data.length === 0 || page !== prevPage) {
-    //     await retrieveBooks();
-    //   }
-    // });
+    // Whenever the data resets or page changes, switch to the new page.
+    watch([books, page], async ([data, page], [_prevData, prevPage]) => {
+      if (data.length === 0 || page !== prevPage) {
+        await retrieveBooks();
+      }
+    });
 
     const infiniteScrollEl = ref<HTMLElement>(null);
     const intersectionObserver = useIntersectionObserver(
@@ -159,11 +136,7 @@ export default defineComponent({
 
     return {
       books,
-      searchCondition,
       handleSyncList,
-      clearSearch,
-      titleInputRef,
-      authorNameInputRef,
       isFetching,
       retrieveBooks,
       clear,

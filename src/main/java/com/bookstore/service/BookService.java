@@ -2,7 +2,6 @@ package com.bookstore.service;
 
 import com.bookstore.service.dto.BookDTO;
 import java.util.Optional;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Interface for managing {@link com.bookstore.domain.Book}.

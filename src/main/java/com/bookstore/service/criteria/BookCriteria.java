@@ -34,8 +34,6 @@ public class BookCriteria implements Serializable, Criteria {
 
     private LongFilter authorId;
 
-    private StringFilter authorName;
-
     private Boolean distinct;
 
     public BookCriteria() {}
@@ -47,7 +45,6 @@ public class BookCriteria implements Serializable, Criteria {
         this.publicationDate = other.optionalPublicationDate().map(LocalDateFilter::copy).orElse(null);
         this.price = other.optionalPrice().map(BigDecimalFilter::copy).orElse(null);
         this.authorId = other.optionalAuthorId().map(LongFilter::copy).orElse(null);
-        this.authorName = other.optionalAuthorName().map(StringFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -170,25 +167,6 @@ public class BookCriteria implements Serializable, Criteria {
         this.authorId = authorId;
     }
 
-    public StringFilter getAuthorName() {
-        return authorName;
-    }
-
-    public Optional<StringFilter> optionalAuthorName() {
-        return Optional.ofNullable(authorName);
-    }
-
-    public StringFilter authorName() {
-        if (authorName == null) {
-            setAuthorName(new StringFilter());
-        }
-        return authorName;
-    }
-
-    public void setAuthorName(StringFilter authorName) {
-        this.authorName = authorName;
-    }
-
     public Boolean getDistinct() {
         return distinct;
     }
@@ -224,14 +202,13 @@ public class BookCriteria implements Serializable, Criteria {
             Objects.equals(publicationDate, that.publicationDate) &&
             Objects.equals(price, that.price) &&
             Objects.equals(authorId, that.authorId) &&
-            Objects.equals(authorName, that.authorName) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, publicationDate, price, authorId, authorName, distinct);
+        return Objects.hash(id, title, description, publicationDate, price, authorId, distinct);
     }
 
     // prettier-ignore
@@ -244,7 +221,6 @@ public class BookCriteria implements Serializable, Criteria {
             optionalPublicationDate().map(f -> "publicationDate=" + f + ", ").orElse("") +
             optionalPrice().map(f -> "price=" + f + ", ").orElse("") +
             optionalAuthorId().map(f -> "authorId=" + f + ", ").orElse("") +
-            optionalAuthorName().map(f -> "authorName=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

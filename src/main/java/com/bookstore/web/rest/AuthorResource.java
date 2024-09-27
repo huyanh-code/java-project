@@ -20,7 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import tech.jhipster.service.filter.StringFilter;
 import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.PaginationUtil;
 import tech.jhipster.web.util.ResponseUtil;
@@ -148,12 +147,12 @@ public class AuthorResource {
      */
     @GetMapping("")
     public ResponseEntity<List<AuthorDTO>> getAllAuthors(
-        @RequestParam(value = "name", required = false) StringFilter name,
         AuthorCriteria criteria,
         @org.springdoc.core.annotations.ParameterObject Pageable pageable
     ) {
-        LOG.debug("REST request to get Authors by criteria, name: {}, {}", criteria, name);
-        Page<AuthorDTO> page = authorQueryService.findByCriteria(name, criteria, pageable);
+        LOG.debug("REST request to get Authors by criteria: {}", criteria);
+
+        Page<AuthorDTO> page = authorQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

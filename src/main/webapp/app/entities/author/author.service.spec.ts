@@ -100,7 +100,7 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a Author', async () => {
-        const patchObject = { name: 'BBBBBB', birthDate: dayjs(currentDate).format(DATE_FORMAT), ...new Author() };
+        const patchObject = { name: 'BBBBBB', ...new Author() };
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
         const expected = { birthDate: currentDate, ...returnedFromService };

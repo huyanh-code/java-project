@@ -1,5 +1,6 @@
 package com.bookstore.service.dto;
 
+import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -15,6 +16,11 @@ public class AuthorDTO implements Serializable {
     private String name;
 
     private LocalDate birthDate;
+
+    @Lob
+    private byte[] imageAuthor;
+
+    public AuthorDTO() {}
 
     public Long getId() {
         return id;
@@ -38,6 +44,14 @@ public class AuthorDTO implements Serializable {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public byte[] getImageAuthor() {
+        return imageAuthor;
+    }
+
+    public void setImageAuthor(byte[] imageAuthor) {
+        this.imageAuthor = imageAuthor;
     }
 
     @Override
@@ -68,6 +82,7 @@ public class AuthorDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
+            ", imageAuthor=" + getImageAuthor() + "'" +
             "}";
     }
 }

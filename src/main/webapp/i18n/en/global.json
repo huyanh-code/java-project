@@ -11,7 +11,8 @@
         "author": "Author",
         "someEntity": "Some Entity",
         "otherEntity": "Other Entity",
-        "book": "Book"
+        "book": "Book",
+        "imageAuthor": "Image Author"
       },
       "account": {
         "main": "Account",

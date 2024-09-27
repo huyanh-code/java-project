@@ -2,14 +2,6 @@
   <div>
     <h2 id="page-heading" data-cy="AuthorHeading">
       <span v-text="t$('bookstoreApp.author.home.title')" id="author-heading"></span>
-      <div class="search-container">
-        <input v-model="searchConditions.authorName" type="text" class="form-control mr-2" placeholder="Search authors..." />
-        <button @click="retrieveAuthors" class="btn btn-primary" :disabled="isFetching">
-          <font-awesome-icon icon="search"></font-awesome-icon>
-          <span v-text="t$('bookstoreApp.author.home.search')"></span>
-        </button>
-      </div>
-
       <div class="d-flex justify-content-end">
         <button class="btn btn-info mr-2" @click="handleSyncList" :disabled="isFetching">
           <font-awesome-icon icon="sync" :spin="isFetching"></font-awesome-icon>
@@ -36,10 +28,17 @@
       <table class="table table-striped" aria-describedby="authors">
         <thead>
           <tr>
-            <th scope="row" @click="changeOrder('id')">
+            <!-- <th scope="row" @click="changeOrder('id')">
               <span v-text="t$('global.field.id')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
+            </th> -->
+
+            <th scope="row" @click="changeOrder('imageAuthor')">
+              <span v-text="t$('bookstoreApp.author.imageAuthor')"></span>
+              <!-- New header for image -->
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'imageAuthor'"></jhi-sort-indicator>
             </th>
+
             <th scope="row" @click="changeOrder('name')">
               <span v-text="t$('bookstoreApp.author.name')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'name'"></jhi-sort-indicator>
@@ -53,21 +52,24 @@
         </thead>
         <tbody>
           <tr v-for="author in authors" :key="author.id" data-cy="entityTable">
-            <td>
+            <!-- <td>
               <router-link :to="{ name: 'AuthorView', params: { authorId: author.id } }">{{ author.id }}</router-link>
+            </td> -->
+            <td>
+              <img v-if="author.imageAuthor" :src="getImageUrl(author.imageAuthor)" alt="Author Image" width="50" height="50" />
             </td>
             <td>{{ author.name }}</td>
             <td>{{ author.birthDate }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'AuthorView', params: { authorId: author.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-info btn-sm details" data-cy="entityDetailsButton">
+                  <button @click="navigate" class="btn btn-info btn-sm mr-2 details" data-cy="entityDetailsButton">
                     <font-awesome-icon icon="eye"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="t$('entity.action.view')"></span>
                   </button>
                 </router-link>
                 <router-link :to="{ name: 'AuthorEdit', params: { authorId: author.id } }" custom v-slot="{ navigate }">
-                  <button @click="navigate" class="btn btn-primary btn-sm edit" data-cy="entityEditButton">
+                  <button @click="navigate" class="btn btn-primary btn-sm mr-2 edit" data-cy="entityEditButton">
                     <font-awesome-icon icon="pencil-alt"></font-awesome-icon>
                     <span class="d-none d-md-inline" v-text="t$('entity.action.edit')"></span>
                   </button>

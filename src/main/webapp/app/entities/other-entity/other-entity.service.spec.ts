@@ -100,7 +100,7 @@ describe('Service Tests', () => {
       });
 
       it('should partial update a OtherEntity', async () => {
-        const patchObject = { ...new OtherEntity() };
+        const patchObject = { name: 'BBBBBB', ...new OtherEntity() };
         const returnedFromService = Object.assign(patchObject, elemDefault);
 
         const expected = { birthDate: currentDate, ...returnedFromService };

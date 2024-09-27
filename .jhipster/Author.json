@@ -17,7 +17,16 @@
   "name": "Author",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityField": "id",
+      "otherEntityName": "imageAuthor",
+      "otherEntityRelationshipName": "author_id",
+      "relationshipName": "author",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
   "searchEngine": "no",
   "service": "serviceImpl"
 }

@@ -45,7 +45,7 @@ public class Book implements Serializable {
     private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnoreProperties(value = { "books" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "authors", "books" }, allowSetters = true)
     private Author author;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

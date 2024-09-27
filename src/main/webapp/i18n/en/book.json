@@ -3,8 +3,6 @@
     "book": {
       "home": {
         "title": "Books",
-        "search": "Search",
-        "remove": "Clear",
         "refreshListLabel": "Refresh list",
         "createLabel": "Create a new Book",
         "createOrEditLabel": "Create or edit a Book",

@@ -1,0 +1,20 @@
+{
+  "annotations": {
+    "changelogDate": "20240926100038"
+  },
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "imageAuthor",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ImageAuthor",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

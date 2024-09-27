@@ -1,7 +1,7 @@
 import { type Ref, defineComponent, inject, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import AuthorService, { AuthorSearchCondition } from './author.service';
+import AuthorService from './author.service';
 import { type IAuthor } from '@/shared/model/author.model';
 import { useAlertService } from '@/shared/alert/alert.service';
 
@@ -21,16 +21,11 @@ export default defineComponent({
     const totalItems = ref(0);
 
     const authors: Ref<IAuthor[]> = ref([]);
-    const searchQuery = ref('');
-    const searchConditions = ref<AuthorSearchCondition>({
-      // bookName: undefined,
-      authorName: undefined,
-    });
+
     const isFetching = ref(false);
 
     const clear = () => {
       page.value = 1;
-      searchQuery.value = '';
     };
 
     const sort = (): Array<any> => {
@@ -41,27 +36,6 @@ export default defineComponent({
       return result;
     };
 
-    const search = async () => {
-      if (authorService && searchQuery.value) {
-        authors.value = await authorService().search(searchQuery.value);
-      }
-    };
-
-    const handleSearch = async () => {
-      if (searchQuery.value.trim()) {
-        isFetching.value = true;
-        try {
-          // Implement search functionality
-          authors.value = await authorService().search(searchQuery.value, page.value, itemsPerPage.value);
-          // Handle additional logic, like updating totalItems or queryCount if needed
-        } catch (error) {
-          alertService.showError(t$('error.searchFailed')); // Use alert service to show errors
-        } finally {
-          isFetching.value = false;
-        }
-      }
-    };
-
     const retrieveAuthors = async () => {
       isFetching.value = true;
       try {
@@ -70,7 +44,7 @@ export default defineComponent({
           size: itemsPerPage.value,
           sort: sort(),
         };
-        const res = await authorService().retrieve(searchConditions.value, paginationQuery);
+        const res = await authorService().retrieve(paginationQuery);
         totalItems.value = Number(res.headers['x-total-count']);
         queryCount.value = totalItems.value;
         authors.value = res.data;
@@ -136,12 +110,13 @@ export default defineComponent({
       await retrieveAuthors();
     });
 
+    const getImageUrl = (blob: Blob): string => {
+      return URL.createObjectURL(blob);
+    };
+
     return {
       authors,
-      searchQuery,
-      searchConditions,
       handleSyncList,
-      handleSearch,
       isFetching,
       retrieveAuthors,
       clear,
@@ -158,6 +133,7 @@ export default defineComponent({
       totalItems,
       changeOrder,
       t$,
+      getImageUrl,
     };
   },
 });
