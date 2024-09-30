@@ -32,8 +32,6 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     private LongFilter bookId;
 
-    private StringFilter imageAuthor;
-
     private Boolean distinct;
 
     public AuthorCriteria() {}
@@ -44,7 +42,6 @@ public class AuthorCriteria implements Serializable, Criteria {
         this.birthDate = other.optionalBirthDate().map(LocalDateFilter::copy).orElse(null);
         this.authorId = other.optionalAuthorId().map(LongFilter::copy).orElse(null);
         this.bookId = other.optionalBookId().map(LongFilter::copy).orElse(null);
-        this.imageAuthor = other.optionalImageAuthor().map(StringFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -127,25 +124,6 @@ public class AuthorCriteria implements Serializable, Criteria {
 
     public void setAuthorId(LongFilter authorId) {
         this.authorId = authorId;
-    }
-
-    public StringFilter getImageAuthor() {
-        return imageAuthor;
-    }
-
-    public Optional<StringFilter> optionalImageAuthor() {
-        return Optional.ofNullable(imageAuthor);
-    }
-
-    public StringFilter imageAuthor() {
-        if (imageAuthor == null) {
-            setImageAuthor((new StringFilter()));
-        }
-        return imageAuthor;
-    }
-
-    public void setImageAuthor(StringFilter imageAuthor) {
-        this.imageAuthor = imageAuthor;
     }
 
     public LongFilter getBookId() {

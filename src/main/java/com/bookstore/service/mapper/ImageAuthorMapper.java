@@ -11,10 +11,11 @@ import org.mapstruct.*;
  */
 @Mapper(componentModel = "spring")
 public interface ImageAuthorMapper extends EntityMapper<ImageAuthorDTO, ImageAuthor> {
-    @Mapping(target = "author", source = "author", qualifiedByName = "authorId")
+    @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "authorName", source = "author.name")
     ImageAuthorDTO toDto(ImageAuthor s);
 
-    @Named("authorId")
+    //    @Named("authorId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     AuthorDTO toDtoAuthorId(Author author);

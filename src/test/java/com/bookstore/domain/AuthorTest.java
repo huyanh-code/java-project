@@ -2,6 +2,7 @@ package com.bookstore.domain;
 
 import static com.bookstore.domain.AuthorTestSamples.*;
 import static com.bookstore.domain.BookTestSamples.*;
+import static com.bookstore.domain.ImageAuthorTestSamples.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.bookstore.web.rest.TestUtil;
@@ -23,6 +24,28 @@ class AuthorTest {
 
         author2 = getAuthorSample2();
         assertThat(author1).isNotEqualTo(author2);
+    }
+
+    @Test
+    void authorTest() {
+        Author author = getAuthorRandomSampleGenerator();
+        ImageAuthor imageAuthorBack = getImageAuthorRandomSampleGenerator();
+
+        author.addAuthor(imageAuthorBack);
+        assertThat(author.getImages()).containsOnly(imageAuthorBack);
+        assertThat(imageAuthorBack.getAuthor()).isEqualTo(author);
+
+        author.removeAuthor(imageAuthorBack);
+        assertThat(author.getImages()).doesNotContain(imageAuthorBack);
+        assertThat(imageAuthorBack.getAuthor()).isNull();
+
+        author.authors(new HashSet<>(Set.of(imageAuthorBack)));
+        assertThat(author.getImages()).containsOnly(imageAuthorBack);
+        assertThat(imageAuthorBack.getAuthor()).isEqualTo(author);
+
+        author.setImages(new HashSet<>());
+        assertThat(author.getImages()).doesNotContain(imageAuthorBack);
+        assertThat(imageAuthorBack.getAuthor()).isNull();
     }
 
     @Test

@@ -47,12 +47,7 @@ public class ImageAuthorAsserts {
     public static void assertImageAuthorUpdatableFieldsEquals(ImageAuthor expected, ImageAuthor actual) {
         assertThat(expected)
             .as("Verify ImageAuthor relevant properties")
-            .satisfies(e -> assertThat(e.getImageAuthor()).as("check imageAuthor").isEqualTo(actual.getImageAuthor()))
-            .satisfies(e ->
-                assertThat(e.getImageAuthorContentType())
-                    .as("check imageAuthor contenty type")
-                    .isEqualTo(actual.getImageAuthorContentType())
-            );
+            .satisfies(e -> assertThat(e.getImage_url()).as("check image_url").isEqualTo(actual.getImage_url()));
     }
 
     /**

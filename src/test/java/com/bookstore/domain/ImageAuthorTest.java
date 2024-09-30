@@ -31,7 +31,7 @@ class ImageAuthorTest {
         imageAuthor.setAuthor(authorBack);
         assertThat(imageAuthor.getAuthor()).isEqualTo(authorBack);
 
-        imageAuthor.author_id(null);
+        imageAuthor.author(null);
         assertThat(imageAuthor.getAuthor()).isNull();
     }
 }

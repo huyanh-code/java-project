@@ -3,37 +3,28 @@ package com.bookstore.service.mapper;
 import com.bookstore.domain.Author;
 import com.bookstore.service.dto.AuthorDTO;
 import java.util.List;
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 
 /**
  * Mapper for the entity {@link Author} and its DTO {@link AuthorDTO}.
  */
 @Mapper(componentModel = "spring")
 public interface AuthorMapper extends EntityMapper<AuthorDTO, Author> {
-    @Override
-    AuthorDTO toDto(Author entity);
+    @Named("myCustomizeToDTO")
+    default AuthorDTO toAuthorDTO(Author author) {
+        if (author == null) return null;
 
-    @Named(value = "useMe")
-    default AuthorDTO authorToAuthorDTO(Author entity) {
-        if (entity == null) return null;
+        var authorDTO = toDto(author);
 
-        AuthorDTO authorDTO = new AuthorDTO();
-
-        authorDTO.setId(entity.getId());
-        authorDTO.setName(entity.getName());
-        authorDTO.setBirthDate(entity.getBirthDate());
-
-        if (entity.getAuthors() != null && !entity.getAuthors().isEmpty()) {
-            var firstImageAuthor = entity.getAuthors().iterator().next();
-            authorDTO.setImageAuthor(firstImageAuthor.getImageAuthor());
+        if (!author.getImages().isEmpty()) {
+            var firstImage = author.getImages().iterator().next();
+            authorDTO.setImageUrl(firstImage.getImage_url());
         }
 
         return authorDTO;
     }
 
     @Override
-    @IterableMapping(qualifiedByName = "useMe")
+    @IterableMapping(qualifiedByName = "myCustomizeToDTO")
     List<AuthorDTO> toDto(List<Author> entityList);
 }

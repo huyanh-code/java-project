@@ -5,9 +5,8 @@
   "dto": "mapstruct",
   "fields": [
     {
-      "fieldName": "imageAuthor",
-      "fieldType": "byte[]",
-      "fieldTypeBlobContent": "any"
+      "fieldName": "image_url",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,

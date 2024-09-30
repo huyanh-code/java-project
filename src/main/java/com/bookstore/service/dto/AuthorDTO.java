@@ -1,9 +1,9 @@
 package com.bookstore.service.dto;
 
-import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * A DTO for the {@link com.bookstore.domain.Author} entity.
@@ -17,10 +17,25 @@ public class AuthorDTO implements Serializable {
 
     private LocalDate birthDate;
 
-    @Lob
-    private byte[] imageAuthor;
+    private String imageUrl;
 
-    public AuthorDTO() {}
+    public MultipartFile getImage() {
+        return image;
+    }
+
+    public void setImage(MultipartFile image) {
+        this.image = image;
+    }
+
+    private MultipartFile image;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public Long getId() {
         return id;
@@ -44,14 +59,6 @@ public class AuthorDTO implements Serializable {
 
     public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public byte[] getImageAuthor() {
-        return imageAuthor;
-    }
-
-    public void setImageAuthor(byte[] imageAuthor) {
-        this.imageAuthor = imageAuthor;
     }
 
     @Override
@@ -82,7 +89,6 @@ public class AuthorDTO implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", birthDate='" + getBirthDate() + "'" +
-            ", imageAuthor=" + getImageAuthor() + "'" +
             "}";
     }
 }

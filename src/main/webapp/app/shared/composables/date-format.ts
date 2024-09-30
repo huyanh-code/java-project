@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useI18n } from 'vue-i18n';
 
 export const DATE_FORMAT = 'YYYY-MM-DD';
+export const DATE_FORMAT2 = 'DD/MM/YYYY';
 export const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm';
 
 export const DATE_TIME_LONG_FORMAT = 'YYYY-MM-DDTHH:mm';

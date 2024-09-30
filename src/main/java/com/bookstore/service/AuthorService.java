@@ -21,7 +21,7 @@ public interface AuthorService {
      * @param authorDTO the entity to update.
      * @return the persisted entity.
      */
-    AuthorDTO update(AuthorDTO authorDTO);
+    AuthorDTO update(AuthorDTO authorDTO, String contextPath);
 
     /**
      * Partially updates a author.

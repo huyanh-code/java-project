@@ -75,14 +75,18 @@ class ImageAuthorCriteriaTest {
 
     private static void setAllFilters(ImageAuthorCriteria imageAuthorCriteria) {
         imageAuthorCriteria.id();
-        imageAuthorCriteria.author_id();
+        imageAuthorCriteria.image_url();
+        imageAuthorCriteria.author();
         imageAuthorCriteria.distinct();
     }
 
     private static Condition<ImageAuthorCriteria> criteriaFiltersAre(Function<Object, Boolean> condition) {
         return new Condition<>(
             criteria ->
-                condition.apply(criteria.getId()) && condition.apply(criteria.getAuthor_id()) && condition.apply(criteria.getDistinct()),
+                condition.apply(criteria.getId()) &&
+                condition.apply(criteria.getImage_url()) &&
+                condition.apply(criteria.getAuthor()) &&
+                condition.apply(criteria.getDistinct()),
             "every filter matches"
         );
     }
@@ -91,7 +95,8 @@ class ImageAuthorCriteriaTest {
         return new Condition<>(
             criteria ->
                 condition.apply(criteria.getId(), copy.getId()) &&
-                condition.apply(criteria.getAuthor_id(), copy.getAuthor_id()) &&
+                condition.apply(criteria.getImage_url(), copy.getImage_url()) &&
+                condition.apply(criteria.getAuthor(), copy.getAuthor()) &&
                 condition.apply(criteria.getDistinct(), copy.getDistinct()),
             "every filter matches"
         );

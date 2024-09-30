@@ -24,7 +24,9 @@ public class ImageAuthorCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LongFilter author_id;
+    private StringFilter image_url;
+
+    private LongFilter author;
 
     private Boolean distinct;
 
@@ -32,7 +34,8 @@ public class ImageAuthorCriteria implements Serializable, Criteria {
 
     public ImageAuthorCriteria(ImageAuthorCriteria other) {
         this.id = other.optionalId().map(LongFilter::copy).orElse(null);
-        this.author_id = other.optionalAuthor_id().map(LongFilter::copy).orElse(null);
+        this.image_url = other.optionalImage_url().map(StringFilter::copy).orElse(null);
+        this.author = other.optionalAuthor().map(LongFilter::copy).orElse(null);
         this.distinct = other.distinct;
     }
 
@@ -60,23 +63,42 @@ public class ImageAuthorCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LongFilter getAuthor_id() {
-        return author_id;
+    public StringFilter getImage_url() {
+        return image_url;
     }
 
-    public Optional<LongFilter> optionalAuthor_id() {
-        return Optional.ofNullable(author_id);
+    public Optional<StringFilter> optionalImage_url() {
+        return Optional.ofNullable(image_url);
     }
 
-    public LongFilter author_id() {
-        if (author_id == null) {
-            setAuthor_id(new LongFilter());
+    public StringFilter image_url() {
+        if (image_url == null) {
+            setImage_url(new StringFilter());
         }
-        return author_id;
+        return image_url;
     }
 
-    public void setAuthor_id(LongFilter author_id) {
-        this.author_id = author_id;
+    public void setImage_url(StringFilter image_url) {
+        this.image_url = image_url;
+    }
+
+    public LongFilter getAuthor() {
+        return author;
+    }
+
+    public Optional<LongFilter> optionalAuthor() {
+        return Optional.ofNullable(author);
+    }
+
+    public LongFilter author() {
+        if (author == null) {
+            setAuthor(new LongFilter());
+        }
+        return author;
+    }
+
+    public void setAuthor(LongFilter author) {
+        this.author = author;
     }
 
     public Boolean getDistinct() {
@@ -107,12 +129,17 @@ public class ImageAuthorCriteria implements Serializable, Criteria {
             return false;
         }
         final ImageAuthorCriteria that = (ImageAuthorCriteria) o;
-        return Objects.equals(id, that.id) && Objects.equals(author_id, that.author_id) && Objects.equals(distinct, that.distinct);
+        return (
+            Objects.equals(id, that.id) &&
+            Objects.equals(image_url, that.image_url) &&
+            Objects.equals(author, that.author) &&
+            Objects.equals(distinct, that.distinct)
+        );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, author_id, distinct);
+        return Objects.hash(id, image_url, author, distinct);
     }
 
     // prettier-ignore
@@ -120,7 +147,8 @@ public class ImageAuthorCriteria implements Serializable, Criteria {
     public String toString() {
         return "ImageAuthorCriteria{" +
             optionalId().map(f -> "id=" + f + ", ").orElse("") +
-            optionalAuthor_id().map(f -> "author_id=" + f + ", ").orElse("") +
+            optionalImage_url().map(f -> "image_url=" + f + ", ").orElse("") +
+            optionalAuthor().map(f -> "author_id=" + f + ", ").orElse("") +
             optionalDistinct().map(f -> "distinct=" + f + ", ").orElse("") +
         "}";
     }

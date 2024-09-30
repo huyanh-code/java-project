@@ -6,12 +6,6 @@
           <span v-text="t$('bookstoreApp.author.detail.title')"></span> {{ author.id }}
         </h2>
         <dl class="row jh-entity-details">
-          <dd>
-            <span>{{ author.imageAuthor }}</span>
-          </dd>
-          <dt>
-            <span v-text="t$('bookstoreApp.author.imageAuthor')"></span>
-          </dt>
           <dt>
             <span v-text="t$('bookstoreApp.author.name')"></span>
           </dt>

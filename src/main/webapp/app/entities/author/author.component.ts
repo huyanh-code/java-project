@@ -4,6 +4,11 @@ import { useI18n } from 'vue-i18n';
 import AuthorService from './author.service';
 import { type IAuthor } from '@/shared/model/author.model';
 import { useAlertService } from '@/shared/alert/alert.service';
+import { SERVER_URL } from '@/constants';
+
+import dayjs from 'dayjs';
+
+import { DATE_FORMAT2 } from '@/shared/composables/date-format';
 
 export default defineComponent({
   compatConfig: { MODE: 3 },
@@ -110,11 +115,10 @@ export default defineComponent({
       await retrieveAuthors();
     });
 
-    const getImageUrl = (blob: Blob): string => {
-      return URL.createObjectURL(blob);
-    };
+    console.log('SERVER_URL = ', SERVER_URL);
 
     return {
+      SERVER_URL,
       authors,
       handleSyncList,
       isFetching,
@@ -133,7 +137,8 @@ export default defineComponent({
       totalItems,
       changeOrder,
       t$,
-      getImageUrl,
+      dayjs,
+      DATE_FORMAT2,
     };
   },
 });

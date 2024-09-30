@@ -15,7 +15,6 @@ import com.bookstore.service.dto.ImageAuthorDTO;
 import com.bookstore.service.mapper.ImageAuthorMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
-import java.util.Base64;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.jupiter.api.AfterEach;
@@ -36,10 +35,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class ImageAuthorResourceIT {
 
-    private static final byte[] DEFAULT_IMAGE_AUTHOR = TestUtil.createByteArray(1, "0");
-    private static final byte[] UPDATED_IMAGE_AUTHOR = TestUtil.createByteArray(1, "1");
-    private static final String DEFAULT_IMAGE_AUTHOR_CONTENT_TYPE = "image/jpg";
-    private static final String UPDATED_IMAGE_AUTHOR_CONTENT_TYPE = "image/png";
+    private static final String DEFAULT_IMAGE_URL = "AAAAAAAAAA";
+    private static final String UPDATED_IMAGE_URL = "BBBBBBBBBB";
 
     private static final String ENTITY_API_URL = "/api/image-authors";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -73,7 +70,7 @@ class ImageAuthorResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ImageAuthor createEntity() {
-        return new ImageAuthor().imageAuthor(DEFAULT_IMAGE_AUTHOR).imageAuthorContentType(DEFAULT_IMAGE_AUTHOR_CONTENT_TYPE);
+        return new ImageAuthor().image_url(DEFAULT_IMAGE_URL);
     }
 
     /**
@@ -83,7 +80,7 @@ class ImageAuthorResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static ImageAuthor createUpdatedEntity() {
-        return new ImageAuthor().imageAuthor(UPDATED_IMAGE_AUTHOR).imageAuthorContentType(UPDATED_IMAGE_AUTHOR_CONTENT_TYPE);
+        return new ImageAuthor().image_url(UPDATED_IMAGE_URL);
     }
 
     @BeforeEach
@@ -153,8 +150,7 @@ class ImageAuthorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(imageAuthor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].imageAuthorContentType").value(hasItem(DEFAULT_IMAGE_AUTHOR_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].imageAuthor").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE_AUTHOR))));
+            .andExpect(jsonPath("$.[*].image_url").value(hasItem(DEFAULT_IMAGE_URL)));
     }
 
     @Test
@@ -169,8 +165,7 @@ class ImageAuthorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(imageAuthor.getId().intValue()))
-            .andExpect(jsonPath("$.imageAuthorContentType").value(DEFAULT_IMAGE_AUTHOR_CONTENT_TYPE))
-            .andExpect(jsonPath("$.imageAuthor").value(Base64.getEncoder().encodeToString(DEFAULT_IMAGE_AUTHOR)));
+            .andExpect(jsonPath("$.image_url").value(DEFAULT_IMAGE_URL));
     }
 
     @Test
@@ -186,6 +181,56 @@ class ImageAuthorResourceIT {
         defaultImageAuthorFiltering("id.greaterThanOrEqual=" + id, "id.greaterThan=" + id);
 
         defaultImageAuthorFiltering("id.lessThanOrEqual=" + id, "id.lessThan=" + id);
+    }
+
+    @Test
+    @Transactional
+    void getAllImageAuthorsByImage_urlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        insertedImageAuthor = imageAuthorRepository.saveAndFlush(imageAuthor);
+
+        // Get all the imageAuthorList where image_url equals to
+        defaultImageAuthorFiltering("image_url.equals=" + DEFAULT_IMAGE_URL, "image_url.equals=" + UPDATED_IMAGE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllImageAuthorsByImage_urlIsInShouldWork() throws Exception {
+        // Initialize the database
+        insertedImageAuthor = imageAuthorRepository.saveAndFlush(imageAuthor);
+
+        // Get all the imageAuthorList where image_url in
+        defaultImageAuthorFiltering("image_url.in=" + DEFAULT_IMAGE_URL + "," + UPDATED_IMAGE_URL, "image_url.in=" + UPDATED_IMAGE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllImageAuthorsByImage_urlIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        insertedImageAuthor = imageAuthorRepository.saveAndFlush(imageAuthor);
+
+        // Get all the imageAuthorList where image_url is not null
+        defaultImageAuthorFiltering("image_url.specified=true", "image_url.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllImageAuthorsByImage_urlContainsSomething() throws Exception {
+        // Initialize the database
+        insertedImageAuthor = imageAuthorRepository.saveAndFlush(imageAuthor);
+
+        // Get all the imageAuthorList where image_url contains
+        defaultImageAuthorFiltering("image_url.contains=" + DEFAULT_IMAGE_URL, "image_url.contains=" + UPDATED_IMAGE_URL);
+    }
+
+    @Test
+    @Transactional
+    void getAllImageAuthorsByImage_urlNotContainsSomething() throws Exception {
+        // Initialize the database
+        insertedImageAuthor = imageAuthorRepository.saveAndFlush(imageAuthor);
+
+        // Get all the imageAuthorList where image_url does not contain
+        defaultImageAuthorFiltering("image_url.doesNotContain=" + UPDATED_IMAGE_URL, "image_url.doesNotContain=" + DEFAULT_IMAGE_URL);
     }
 
     @Test
@@ -224,8 +269,7 @@ class ImageAuthorResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(imageAuthor.getId().intValue())))
-            .andExpect(jsonPath("$.[*].imageAuthorContentType").value(hasItem(DEFAULT_IMAGE_AUTHOR_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].imageAuthor").value(hasItem(Base64.getEncoder().encodeToString(DEFAULT_IMAGE_AUTHOR))));
+            .andExpect(jsonPath("$.[*].image_url").value(hasItem(DEFAULT_IMAGE_URL)));
 
         // Check, that the count call also returns 1
         restImageAuthorMockMvc
@@ -273,7 +317,7 @@ class ImageAuthorResourceIT {
         ImageAuthor updatedImageAuthor = imageAuthorRepository.findById(imageAuthor.getId()).orElseThrow();
         // Disconnect from session so that the updates on updatedImageAuthor are not directly saved in db
         em.detach(updatedImageAuthor);
-        updatedImageAuthor.imageAuthor(UPDATED_IMAGE_AUTHOR).imageAuthorContentType(UPDATED_IMAGE_AUTHOR_CONTENT_TYPE);
+        updatedImageAuthor.image_url(UPDATED_IMAGE_URL);
         ImageAuthorDTO imageAuthorDTO = imageAuthorMapper.toDto(updatedImageAuthor);
 
         restImageAuthorMockMvc
@@ -363,6 +407,8 @@ class ImageAuthorResourceIT {
         ImageAuthor partialUpdatedImageAuthor = new ImageAuthor();
         partialUpdatedImageAuthor.setId(imageAuthor.getId());
 
+        partialUpdatedImageAuthor.image_url(UPDATED_IMAGE_URL);
+
         restImageAuthorMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedImageAuthor.getId())
@@ -392,7 +438,7 @@ class ImageAuthorResourceIT {
         ImageAuthor partialUpdatedImageAuthor = new ImageAuthor();
         partialUpdatedImageAuthor.setId(imageAuthor.getId());
 
-        partialUpdatedImageAuthor.imageAuthor(UPDATED_IMAGE_AUTHOR).imageAuthorContentType(UPDATED_IMAGE_AUTHOR_CONTENT_TYPE);
+        partialUpdatedImageAuthor.image_url(UPDATED_IMAGE_URL);
 
         restImageAuthorMockMvc
             .perform(

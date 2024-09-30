@@ -459,8 +459,6 @@ class AuthorResourceIT {
         Author partialUpdatedAuthor = new Author();
         partialUpdatedAuthor.setId(author.getId());
 
-        partialUpdatedAuthor.birthDate(UPDATED_BIRTH_DATE);
-
         restAuthorMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedAuthor.getId())

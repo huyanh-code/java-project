@@ -33,8 +33,8 @@ public class Author implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "author_id" }, allowSetters = true)
-    private Set<ImageAuthor> authors = new HashSet<>();
+    @JsonIgnoreProperties(value = { "author" }, allowSetters = true)
+    private Set<ImageAuthor> images = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -82,33 +82,33 @@ public class Author implements Serializable {
         this.birthDate = birthDate;
     }
 
-    public Set<ImageAuthor> getAuthors() {
-        return this.authors;
+    public Set<ImageAuthor> getImages() {
+        return this.images;
     }
 
-    public void setAuthors(Set<ImageAuthor> imageAuthors) {
-        if (this.authors != null) {
-            this.authors.forEach(i -> i.setAuthor(null));
+    public void setImages(Set<ImageAuthor> imageAuthors) {
+        if (this.images != null) {
+            this.images.forEach(i -> i.setAuthor(null));
         }
         if (imageAuthors != null) {
             imageAuthors.forEach(i -> i.setAuthor(this));
         }
-        this.authors = imageAuthors;
+        this.images = imageAuthors;
     }
 
     public Author authors(Set<ImageAuthor> imageAuthors) {
-        this.setAuthors(imageAuthors);
+        this.setImages(imageAuthors);
         return this;
     }
 
     public Author addAuthor(ImageAuthor imageAuthor) {
-        this.authors.add(imageAuthor);
+        this.images.add(imageAuthor);
         imageAuthor.setAuthor(this);
         return this;
     }
 
     public Author removeAuthor(ImageAuthor imageAuthor) {
-        this.authors.remove(imageAuthor);
+        this.images.remove(imageAuthor);
         imageAuthor.setAuthor(null);
         return this;
     }

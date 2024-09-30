@@ -77,9 +77,12 @@ public class ImageAuthorQueryService extends QueryService<ImageAuthor> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), ImageAuthor_.id));
             }
-            if (criteria.getAuthor_id() != null) {
+            if (criteria.getImage_url() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getImage_url(), ImageAuthor_.image_url));
+            }
+            if (criteria.getAuthor() != null) {
                 specification = specification.and(
-                    buildSpecification(criteria.getAuthor_id(), root -> root.join(ImageAuthor_.author, JoinType.LEFT).get(Author_.id))
+                    buildSpecification(criteria.getAuthor(), root -> root.join(ImageAuthor_.author, JoinType.LEFT).get(Author_.id))
                 );
             }
         }

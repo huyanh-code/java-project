@@ -32,13 +32,6 @@
               <span v-text="t$('global.field.id')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
             </th> -->
-
-            <th scope="row" @click="changeOrder('imageAuthor')">
-              <span v-text="t$('bookstoreApp.author.imageAuthor')"></span>
-              <!-- New header for image -->
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'imageAuthor'"></jhi-sort-indicator>
-            </th>
-
             <th scope="row" @click="changeOrder('name')">
               <span v-text="t$('bookstoreApp.author.name')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'name'"></jhi-sort-indicator>
@@ -56,10 +49,16 @@
               <router-link :to="{ name: 'AuthorView', params: { authorId: author.id } }">{{ author.id }}</router-link>
             </td> -->
             <td>
-              <img v-if="author.imageAuthor" :src="getImageUrl(author.imageAuthor)" alt="Author Image" width="50" height="50" />
+              <img
+                :src="`${SERVER_URL}content/img/authors/${author.imageUrl ?? 'no-image.png'}`"
+                width="40"
+                height="40"
+                class="rounded-circle"
+                :alt="author.name"
+              />
+              <span class="font-weight-bolder ml-2">{{ author.name }}</span>
             </td>
-            <td>{{ author.name }}</td>
-            <td>{{ author.birthDate }}</td>
+            <td>{{ author.birthDate ? dayjs(author.birthDate).format(DATE_FORMAT2) : 'Khong ro ngay thang nam sinh' }}</td>
             <td class="text-right">
               <div class="btn-group">
                 <router-link :to="{ name: 'AuthorView', params: { authorId: author.id } }" custom v-slot="{ navigate }">

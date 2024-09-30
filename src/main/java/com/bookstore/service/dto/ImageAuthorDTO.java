@@ -1,6 +1,5 @@
 package com.bookstore.service.dto;
 
-import jakarta.persistence.Lob;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,12 +11,27 @@ public class ImageAuthorDTO implements Serializable {
 
     private Long id;
 
-    @Lob
-    private byte[] imageAuthor;
+    private String imageUrl;
 
-    private String imageAuthorContentType;
+    public Long getAuthorId() {
+        return authorId;
+    }
 
-    private AuthorDTO author;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
+    }
+
+    public String getAuthorName() {
+        return authorName;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    //    private AuthorDTO author_id;
+    private Long authorId;
+    private String authorName;
 
     public Long getId() {
         return id;
@@ -27,29 +41,21 @@ public class ImageAuthorDTO implements Serializable {
         this.id = id;
     }
 
-    public byte[] getImageAuthor() {
-        return imageAuthor;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setImageAuthor(byte[] imageAuthor) {
-        this.imageAuthor = imageAuthor;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getImageAuthorContentType() {
-        return imageAuthorContentType;
-    }
-
-    public void setImageAuthorContentType(String imageAuthorContentType) {
-        this.imageAuthorContentType = imageAuthorContentType;
-    }
-
-    public AuthorDTO getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(AuthorDTO author) {
-        this.author = author;
-    }
+    //    public AuthorDTO getAuthorId() {
+    //        return authorId;
+    //    }
+    //
+    //    public void setAuthorId(AuthorDTO authorId) {
+    //        this.authorId = authorId;
+    //    }
 
     @Override
     public boolean equals(Object o) {
@@ -77,8 +83,9 @@ public class ImageAuthorDTO implements Serializable {
     public String toString() {
         return "ImageAuthorDTO{" +
             "id=" + getId() +
-            ", imageAuthor='" + getImageAuthor() + "'" +
-            ", author_id=" + getAuthor() +
+            ", imageUrl='" + getImageUrl() + "'" +
+            ", authorId=" + getAuthorId() +
+            ", authorName=" + getAuthorName() +
             "}";
     }
 }

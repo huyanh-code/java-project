@@ -707,7 +707,7 @@ class BookResourceIT {
         Book partialUpdatedBook = new Book();
         partialUpdatedBook.setId(book.getId());
 
-        partialUpdatedBook.price(UPDATED_PRICE);
+        partialUpdatedBook.title(UPDATED_TITLE).publicationDate(UPDATED_PUBLICATION_DATE).price(UPDATED_PRICE);
 
         restBookMockMvc
             .perform(

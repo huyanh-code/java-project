@@ -15,7 +15,7 @@
 
 logging:
   level:
-    ROOT: DEBUG
+    ROOT: INFO
     tech.jhipster: INFO
     #    org.hibernate.sql: INFO
     #    org.hibernate: TRACE

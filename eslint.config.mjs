@@ -31,7 +31,10 @@ export default tseslint.config(
   {
     files: ['**/*.vue'],
     languageOptions: {
-      parserOptions: { parser: '@typescript-eslint/parser' },
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        sourceType: 'module',
+      },
       globals: { ...globals.browser },
     },
   },

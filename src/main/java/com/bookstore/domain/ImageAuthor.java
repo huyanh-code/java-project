@@ -22,14 +22,11 @@ public class ImageAuthor implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Lob
-    @Column(name = "image_author")
-    private byte[] imageAuthor;
-
-    @Column(name = "image_author_content_type")
-    private String imageAuthorContentType;
+    @Column(name = "image_url")
+    private String image_url;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
     @JsonIgnoreProperties(value = { "authors", "books" }, allowSetters = true)
     private Author author;
 
@@ -48,30 +45,17 @@ public class ImageAuthor implements Serializable {
         this.id = id;
     }
 
-    public byte[] getImageAuthor() {
-        return this.imageAuthor;
+    public String getImage_url() {
+        return this.image_url;
     }
 
-    public ImageAuthor imageAuthor(byte[] imageAuthor) {
-        this.setImageAuthor(imageAuthor);
+    public ImageAuthor image_url(String image_url) {
+        this.setImage_url(image_url);
         return this;
     }
 
-    public void setImageAuthor(byte[] imageAuthor) {
-        this.imageAuthor = imageAuthor;
-    }
-
-    public String getImageAuthorContentType() {
-        return this.imageAuthorContentType;
-    }
-
-    public ImageAuthor imageAuthorContentType(String imageAuthorContentType) {
-        this.imageAuthorContentType = imageAuthorContentType;
-        return this;
-    }
-
-    public void setImageAuthorContentType(String imageAuthorContentType) {
-        this.imageAuthorContentType = imageAuthorContentType;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
     public Author getAuthor() {
@@ -82,7 +66,7 @@ public class ImageAuthor implements Serializable {
         this.author = author;
     }
 
-    public ImageAuthor author_id(Author author) {
+    public ImageAuthor author(Author author) {
         this.setAuthor(author);
         return this;
     }
@@ -111,8 +95,7 @@ public class ImageAuthor implements Serializable {
     public String toString() {
         return "ImageAuthor{" +
             "id=" + getId() +
-            ", imageAuthor='" + getImageAuthor() + "'" +
-            ", imageAuthorContentType='" + getImageAuthorContentType() + "'" +
+            ", image_url='" + getImage_url() + "'" +
             "}";
     }
 }

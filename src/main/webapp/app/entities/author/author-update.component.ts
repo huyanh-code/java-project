@@ -9,13 +9,19 @@ import { useAlertService } from '@/shared/alert/alert.service';
 
 import { Author, type IAuthor } from '@/shared/model/author.model';
 
+import ImageUploader from '@/components/ImageUploader.vue';
+
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'AuthorUpdate',
+  components: {
+    ImageUploader: ImageUploader,
+  },
   setup() {
     const authorService = inject('authorService', () => new AuthorService());
     const alertService = inject('alertService', () => useAlertService(), true);
 
+    const selectedFile: Ref<File> = ref(null);
     const author: Ref<IAuthor> = ref(new Author());
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
@@ -62,15 +68,24 @@ export default defineComponent({
       currentLanguage,
       v$,
       t$,
+      ImageUploader,
+      selectedFile,
     };
   },
   created(): void {},
   methods: {
+    onFileAdded(file: File): void {
+      console.log('file da them vao', file);
+      this.selectedFile = file;
+    },
+    onFileRemoved(): void {
+      this.selectedFile = null;
+    },
     save(): void {
       this.isSaving = true;
       if (this.author.id) {
         this.authorService()
-          .update(this.author)
+          .update(this.author, this.selectedFile)
           .then(param => {
             this.isSaving = false;
             this.previousState();

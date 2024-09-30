@@ -6,7 +6,6 @@ import com.bookstore.repository.AuthorRepository;
 import com.bookstore.service.criteria.AuthorCriteria;
 import com.bookstore.service.dto.AuthorDTO;
 import com.bookstore.service.mapper.AuthorMapper;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +47,7 @@ public class AuthorQueryService extends QueryService<Author> {
     public Page<AuthorDTO> findByCriteria(AuthorCriteria criteria, Pageable page) {
         LOG.debug("find by criteria : {}, page: {}", criteria, page);
         final Specification<Author> specification = createSpecification(criteria);
-        var results = authorRepository.findAll(specification, page);
-        //        var firstAuthor = results.getContent().stream().filter(a -> a.getId() == 1).findFirst();
-        //        var firstAuthorImage = firstAuthor.get().getAuthors();
-
-        return results.map(authorMapper::authorToAuthorDTO);
+        return authorRepository.findAll(specification, page).map(authorMapper::toAuthorDTO);
     }
 
     /**
@@ -88,36 +83,16 @@ public class AuthorQueryService extends QueryService<Author> {
             if (criteria.getBirthDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getBirthDate(), Author_.birthDate));
             }
-            //            if (criteria.getImageAuthor() != null) {
-            //                specification = specification.and(
-            //                    (root, query, builder) -> {
-            //                        var join = root.join(Author_.authors, JoinType.LEFT);
-            //
-            //
-            //                        buildSpecification()
-            //                        return join.get
-            //
-            //                        return builder.equal(join.get(ImageAuthor_.id), root.getModel().getId());
-            ////                        return builder.like(imageAuthorJoin.get(String.valueOf(ImageAuthor_.imageAuthor)), "%" + criteria.getImageAuthor().getContains() + "%");
-            //                    }
-            //                );
-            //
-            //            specification = specification.and(
-            //                buildSpecification(criteria.getId(), root -> root.join(Author_.authors, JoinType.LEFT))
-            //            );
-
-            //                }
+            if (criteria.getAuthorId() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getAuthorId(), root -> root.join(Author_.authors, JoinType.LEFT).get(ImageAuthor_.id))
+                );
+            }
             if (criteria.getBookId() != null) {
                 specification = specification.and(
                     buildSpecification(criteria.getBookId(), root -> root.join(Author_.books, JoinType.LEFT).get(Book_.id))
                 );
             }
-            //            if (criteria.getImageAuthorId() != null) {
-            //                specification = specification.and(
-            //                    buildSpecification(criteria.getImageAuthorId(),
-            //                        root -> root.join(Author_.authors, JoinType.LEFT).get(ImageAuthor_.id))
-            //                );
-            //            }
         }
         return specification;
     }
