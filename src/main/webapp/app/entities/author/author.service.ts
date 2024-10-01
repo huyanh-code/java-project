@@ -46,10 +46,25 @@ export default class AuthorService {
     });
   }
 
-  public create(entity: IAuthor): Promise<IAuthor> {
+  public create(entity: IAuthor, image?: File): Promise<IAuthor> {
     return new Promise<IAuthor>((resolve, reject) => {
+      console.log('Thêm mới tác giả với file:', image);
+
+      const formData = new FormData();
+      formData.append('name', entity.name);
+      formData.append('birthDate', entity.birthDate);
+
+      // Kiểm tra nếu có hình ảnh thì thêm vào formData
+      if (image) {
+        formData.append('image', image);
+      }
+
       axios
-        .post(`${baseApiUrl}`, entity)
+        .post(`${baseApiUrl}`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
         .then(res => {
           resolve(res.data);
         })

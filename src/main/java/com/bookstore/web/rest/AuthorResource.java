@@ -64,13 +64,23 @@ public class AuthorResource {
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new authorDTO, or with status {@code 400 (Bad Request)} if the author has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("")
-    public ResponseEntity<AuthorDTO> createAuthor(@RequestBody AuthorDTO authorDTO) throws URISyntaxException {
+    @PostMapping(consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public ResponseEntity<AuthorDTO> createAuthor(@ModelAttribute AuthorDTO authorDTO) throws URISyntaxException {
         LOG.debug("REST request to save Author : {}", authorDTO);
+
+        // Kiểm tra nếu authorDTO đã có ID
         if (authorDTO.getId() != null) {
             throw new BadRequestAlertException("A new author cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        authorDTO = authorService.save(authorDTO);
+
+        // Log thông tin hình ảnh nếu có
+        if (authorDTO.getImage() != null) {
+            LOG.info("Image file: {}, size: {}", authorDTO.getImage().getOriginalFilename(), authorDTO.getImage().getSize());
+        }
+
+        // Lưu tác giả và hình ảnh
+        authorDTO = authorService.save(authorDTO, context.getRealPath(""));
+
         return ResponseEntity.created(new URI("/api/authors/" + authorDTO.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, authorDTO.getId().toString()))
             .body(authorDTO);

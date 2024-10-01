@@ -30,7 +30,7 @@ logging:
         resource:
           jdbc:
             internal: INFO
-    com.bookstore: INFO
+    com.bookstore: DEBUG
 
 spring:
   devtools:

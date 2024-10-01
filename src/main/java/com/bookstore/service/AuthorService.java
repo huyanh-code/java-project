@@ -13,7 +13,7 @@ public interface AuthorService {
      * @param authorDTO the entity to save.
      * @return the persisted entity.
      */
-    AuthorDTO save(AuthorDTO authorDTO);
+    AuthorDTO save(AuthorDTO authorDTO, String contextPath);
 
     /**
      * Updates a author.

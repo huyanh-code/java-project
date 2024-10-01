@@ -97,7 +97,7 @@ export default defineComponent({
           });
       } else {
         this.authorService()
-          .create(this.author)
+          .create(this.author, this.selectedFile)
           .then(param => {
             this.isSaving = false;
             this.previousState();

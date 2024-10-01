@@ -85,7 +85,7 @@ public class AuthorQueryService extends QueryService<Author> {
             }
             if (criteria.getAuthorId() != null) {
                 specification = specification.and(
-                    buildSpecification(criteria.getAuthorId(), root -> root.join(Author_.authors, JoinType.LEFT).get(ImageAuthor_.id))
+                    buildSpecification(criteria.getAuthorId(), root -> root.join(Author_.images, JoinType.LEFT).get(ImageAuthor_.id))
                 );
             }
             if (criteria.getBookId() != null) {
