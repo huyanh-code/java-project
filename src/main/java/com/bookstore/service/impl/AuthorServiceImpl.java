@@ -121,7 +121,7 @@ public class AuthorServiceImpl implements AuthorService {
 
             // Tạo đối tượng ImageAuthor mới để lưu trữ thông tin ảnh
             ImageAuthor newImage = new ImageAuthor();
-            newImage.setId(author.getId());
+            newImage.setAuthor(author);
             newImage.setImage_url(fileName);
 
             // Lưu thông tin ảnh mới vào cơ sở dữ liệu

@@ -11,11 +11,16 @@ import { Author, type IAuthor } from '@/shared/model/author.model';
 
 import ImageUploader from '@/components/ImageUploader.vue';
 
+// import Datepicker from '@vuepic/vue-datepicker';
+// import '@vuepic/vue-datepicker/dist/main.css';
+// import DatetimePicker from '@/components/DatetimePicker.vue';
+
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'AuthorUpdate',
   components: {
     ImageUploader: ImageUploader,
+    Multiselect: Multiselect,
   },
   setup() {
     const authorService = inject('authorService', () => new AuthorService());
@@ -70,6 +75,8 @@ export default defineComponent({
       t$,
       ImageUploader,
       selectedFile,
+      // Datepicker,
+      // DatetimePicker
     };
   },
   created(): void {},

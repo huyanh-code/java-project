@@ -45,7 +45,8 @@ const config = defineConfig({
   },
   resolve: {
     alias: {
-      vue: '@vue/compat/dist/vue.esm-bundler.js',
+      vue: '@vue/compat',
+      // vue: '@vue/compat/dist/vue.esm-bundler.js',
       '@': fileURLToPath(new URL('./src/main/webapp/app/', import.meta.url)),
     },
   },

@@ -11,9 +11,14 @@ import AuthorService from '@/entities/author/author.service';
 import { type IAuthor } from '@/shared/model/author.model';
 import { Book, type IBook } from '@/shared/model/book.model';
 
+import Multiselect from 'vue-multiselect';
+
 export default defineComponent({
   compatConfig: { MODE: 3 },
   name: 'BookUpdate',
+  components: {
+    Multiselect: Multiselect,
+  },
   setup() {
     const bookService = inject('bookService', () => new BookService());
     const alertService = inject('alertService', () => useAlertService(), true);
@@ -23,6 +28,7 @@ export default defineComponent({
     const authorService = inject('authorService', () => new AuthorService());
 
     const authors: Ref<IAuthor[]> = ref([]);
+    const selectedAuthor: Ref<IAuthor> = ref(book.value.author);
     const isSaving = ref(false);
     const currentLanguage = inject('currentLanguage', () => computed(() => navigator.language ?? 'en'), true);
 
@@ -86,8 +92,10 @@ export default defineComponent({
       isSaving,
       currentLanguage,
       authors,
+      selectedAuthor,
       v$,
       t$,
+      Multiselect,
     };
   },
   created(): void {},
@@ -119,6 +127,19 @@ export default defineComponent({
             this.alertService.showHttpError(error.response);
           });
       }
+    },
+    customLabelOfAuthors(option: IAuthor): String {
+      // return option.name + ' - ' + option.birthDate;
+      return `${option.name} (${option.birthDate})`;
+    },
+
+    onAuthorSelected(author: IAuthor): void {
+      console.log('hahashahsa selected', author);
+      this.book.author = author;
+      this.selectedAuthor = author;
+    },
+    updateValueAction(val1, val2): void {
+      console.log('updateValueAction', val1, val2);
     },
   },
 });

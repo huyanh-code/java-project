@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  */
 @Entity
 @Table(name = "author")
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Author implements Serializable {
 
@@ -32,12 +32,12 @@ public class Author implements Serializable {
     private LocalDate birthDate;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    //    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "author" }, allowSetters = true)
     private Set<ImageAuthor> images = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    //    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "author" }, allowSetters = true)
     private Set<Book> books = new HashSet<>();
 

@@ -14,9 +14,11 @@ import LoginService from './account/login.service';
 import AccountService from './account/account.service';
 import { setupAxiosInterceptors } from '@/shared/config/axios-interceptor';
 import { useStore, useTranslationStore } from '@/store';
+import VueDatePicker from '@vuepic/vue-datepicker';
 
 import '../content/scss/global.scss';
 import '../content/scss/vendor.scss';
+import '@vuepic/vue-datepicker/dist/main.css';
 import TranslationService from '@/locale/translation.service';
 
 const pinia = createPinia();
@@ -26,7 +28,7 @@ const pinia = createPinia();
 initBootstrapVue(Vue);
 
 Vue.configureCompat({
-  MODE: 2,
+  // MODE: 2,
   ATTR_FALSE_VALUE: 'suppress-warning',
   COMPONENT_FUNCTIONAL: 'suppress-warning',
   COMPONENT_V_MODEL: 'suppress-warning',
@@ -58,7 +60,7 @@ Vue.configureCompat({
 const i18n = initI18N();
 
 const app = createApp({
-  compatConfig: { MODE: 3 },
+  compatConfig: { MODE: 2 },
   components: { App },
   template: '<App/>',
   setup(_props, { emit }) {
@@ -160,6 +162,7 @@ initFortAwesome(app);
 app
   .component('jhi-item-count', JhiItemCountComponent)
   .component('jhi-sort-indicator', JhiSortIndicatorComponent)
+  .component('VueDatePicker', VueDatePicker)
   .use(router)
   .use(pinia)
   .use(i18n)

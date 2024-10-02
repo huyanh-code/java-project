@@ -106,6 +106,21 @@
                 {{ authorOption.id }}
               </option>
             </select>
+
+            <Multiselect
+              :modelValue="selectedAuthor"
+              :options="authors"
+              label="name"
+              @select="onAuthorSelected"
+              @update:modelValue="updateValueAction"
+            >
+              <!-- <template slot="singleLabel" slot-scope="{ option }">
+                <strong>{{ option.name }}</strong> born in <strong>
+                {{ option.birthDate }}</strong>
+              </template> -->
+            </Multiselect>
+
+            <pre class="language-json"><code>{{ selectedAuthor }}</code></pre>
           </div>
         </div>
         <div>
@@ -126,4 +141,5 @@
     </div>
   </div>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <script lang="ts" src="./book-update.component.ts"></script>

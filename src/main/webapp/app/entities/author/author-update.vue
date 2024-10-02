@@ -37,7 +37,8 @@
                     v-model="v$.birthDate.$model"
                     name="birthDate"
                     class="form-control"
-                    :locale="currentLanguage"
+                    locale="en"
+                    :date-format-options="{ month: 'short', day: '2-digit', weekday: 'short', year: 'numeric' }"
                     button-only
                     today-button
                     reset-button
