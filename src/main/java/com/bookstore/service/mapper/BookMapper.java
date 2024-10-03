@@ -17,5 +17,6 @@ public interface BookMapper extends EntityMapper<BookDTO, Book> {
     @Named("authorId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "name", source = "name")
     AuthorDTO toDtoAuthorId(Author author);
 }

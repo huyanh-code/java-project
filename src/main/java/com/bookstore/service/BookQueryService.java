@@ -94,6 +94,11 @@ public class BookQueryService extends QueryService<Book> {
                     buildSpecification(criteria.getAuthorId(), root -> root.join(Book_.author, JoinType.LEFT).get(Author_.id))
                 );
             }
+            if (criteria.getAuthorName() != null) {
+                specification = specification.and(
+                    buildSpecification(criteria.getAuthorName(), root -> root.join(Book_.author, JoinType.LEFT).get(Author_.name))
+                );
+            }
         }
         return specification;
     }

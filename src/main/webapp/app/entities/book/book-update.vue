@@ -99,11 +99,11 @@
             <select class="form-control" id="book-author" data-cy="author" name="author" v-model="book.author">
               <option :value="null"></option>
               <option
-                :value="book.author && authorOption.id === book.author.id ? book.author : authorOption"
+                :value="book.author && authorOption.id === book.author.authorName ? book.author : authorOption"
                 v-for="authorOption in authors"
                 :key="authorOption.id"
               >
-                {{ authorOption.id }}
+                {{ authorOption.name }}
               </option>
             </select>
 

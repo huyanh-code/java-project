@@ -23,10 +23,10 @@
       <table class="table table-striped" aria-describedby="books">
         <thead>
           <tr>
-            <th scope="row" @click="changeOrder('id')">
+            <!-- <th scope="row" @click="changeOrder('id')">
               <span v-text="t$('global.field.id')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'id'"></jhi-sort-indicator>
-            </th>
+            </th> -->
             <th scope="row" @click="changeOrder('title')">
               <span v-text="t$('bookstoreApp.book.title')"></span>
               <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'title'"></jhi-sort-indicator>
@@ -45,23 +45,23 @@
             </th>
             <th scope="row" @click="changeOrder('author.id')">
               <span v-text="t$('bookstoreApp.book.author')"></span>
-              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'author.id'"></jhi-sort-indicator>
+              <jhi-sort-indicator :current-order="propOrder" :reverse="reverse" :field-name="'author.name'"></jhi-sort-indicator>
             </th>
             <th scope="row"></th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="book in books" :key="book.id" data-cy="entityTable">
-            <td>
+            <!-- <td>
               <router-link :to="{ name: 'BookView', params: { bookId: book.id } }">{{ book.id }}</router-link>
-            </td>
+            </td> -->
             <td>{{ book.title }}</td>
             <td>{{ book.description }}</td>
             <td>{{ book.publicationDate }}</td>
             <td>{{ book.price }}</td>
             <td>
               <div v-if="book.author">
-                <router-link :to="{ name: 'AuthorView', params: { authorId: book.author.id } }">{{ book.author.id }}</router-link>
+                <router-link :to="{ name: 'AuthorView', params: { authorId: book.author.id } }">{{ book.author.name }}</router-link>
               </div>
             </td>
             <td class="text-right">
